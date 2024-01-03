@@ -12,8 +12,12 @@ public class BoardModel  {
                 TileModel tile = new TileModel();
                 tile.row = row;
                 tile.column = col;
-                System.out.println(tile.row + " " + tile.column);
+                if(row %2 != col % 2){
+                    tile.color ="black";
+                }
+                System.out.println(tile.row + " " + tile.column + tile.color);
             }
+
         }
     }
 }
