@@ -1,6 +1,16 @@
 package org.wcci.checkers.models;
 
+import jakarta.persistence.*;
+
+@Entity
 public class TileModel {
+
+    @ManyToOne
+    BoardModel board;
+
+    @Id
+    @GeneratedValue
+    long id;
     
     Boolean isOccupied;
     int column;

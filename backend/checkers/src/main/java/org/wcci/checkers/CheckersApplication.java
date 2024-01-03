@@ -8,9 +8,11 @@ import org.wcci.checkers.models.BoardModel;
 public class CheckersApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CheckersApplication.class, args);
 
-		BoardModel.drawBoard();
+		BoardModel board = new BoardModel();
+		board.drawBoard();
+
+		SpringApplication.run(CheckersApplication.class, args);
 
 	}
 
