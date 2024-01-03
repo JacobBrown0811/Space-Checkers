@@ -24,8 +24,12 @@ public class BoardModel  {
                 tile.row = row;
                 tile.column = col;
                 if(row %2 != col % 2){
-                    tile.color ="black";
+
+                    tile.color ="white";
+                }else{
+                    tile.color = "black";
                 }
+                
                 System.out.println(tile.row + " " + tile.column + tile.color);
                 board.add(tile);
             }
