@@ -32,7 +32,10 @@ public class BoardModel  {
                 
                 System.out.println(tile.row + " " + tile.column + tile.color);
                 board.add(tile);
+                
             }
+
+
 
         }
     }

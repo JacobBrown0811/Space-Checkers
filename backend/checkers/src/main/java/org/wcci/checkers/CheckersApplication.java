@@ -14,8 +14,6 @@ public class CheckersApplication {
 
 		SpringApplication.run(CheckersApplication.class, args);
 
-
-
 	}
 
 }
