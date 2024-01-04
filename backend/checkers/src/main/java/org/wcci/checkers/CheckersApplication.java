@@ -18,7 +18,6 @@ public class CheckersApplication {
     CommandLineRunner init(BoardRepository boardRepository) {
         return args -> {
             BoardModel board = new BoardModel();
-            board.drawBoard();
             boardRepository.save(board);
         };
     }
