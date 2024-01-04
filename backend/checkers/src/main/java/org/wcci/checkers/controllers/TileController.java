@@ -3,12 +3,10 @@ package org.wcci.checkers.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.wcci.checkers.models.BoardModel;
 import org.wcci.checkers.models.TileModel;
 import org.wcci.checkers.repositories.TileRepository;
 import java.util.Optional;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -30,11 +28,14 @@ public class TileController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<TileModel> updateTile(@PathVariable long id, @RequestBody TileModel updatedTile) {
-         tileRepository.findById(id)
-         .map(updatedTile -> {
-            
+        return tileRepository.findById(id)
+        .map(tile -> {
+            TileModel savedTile = tileRepository.save(tile);
+            return ResponseEntity.ok(savedTile);
+        }).orElseGet(() -> ResponseEntity.notFound().build());
         
-    }
+
+}
 
 
 }
