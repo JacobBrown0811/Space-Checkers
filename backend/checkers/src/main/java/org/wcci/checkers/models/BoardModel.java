@@ -1,42 +1,46 @@
 package org.wcci.checkers.models;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import java.util.List;
 
 @Entity
-public class BoardModel  {
-
-    @OneToMany
-    ArrayList <TileModel> board = new ArrayList<TileModel>();
+public class BoardModel {
 
     @Id
-    @GeneratedValue
-    long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-    public void drawBoard(){
-        for(int row = 0; row < 8; row++){
-            for(int col = 0; col < 8; col++){
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TileModel> tiles = new ArrayList<>();
+
+    public BoardModel() {
+        drawBoard();
+    }
+
+    public void drawBoard() {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
                 TileModel tile = new TileModel();
-                tile.row = row;
-                tile.column = col;
-                if(row %2 != col % 2){
-
-                    tile.color ="white";
-                }else{
-                    tile.color = "black";
-                }
-                
-                System.out.println(tile.row + " " + tile.column + tile.color);
-                board.add(tile);
-                
+                tile.setBoardRow(row);
+                tile.setBoardColumn(col);
+                tile.setColor((row % 2 != col % 2) ? "white" : "black");
+                tile.setBoard(this); // Link each tile to the board
+                tiles.add(tile);
             }
-
-
-
         }
+    }
+
+    // Getters and setters
+    public long getId() {
+        return id;
+    }
+
+    public List<TileModel> getTiles() {
+        return tiles;
+    }
+
+    public void setTiles(List<TileModel> tiles) {
+        this.tiles = tiles;
     }
 }

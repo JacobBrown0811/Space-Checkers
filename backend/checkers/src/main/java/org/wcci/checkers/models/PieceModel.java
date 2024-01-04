@@ -1,68 +1,96 @@
 package org.wcci.checkers.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class PieceModel {
-    String color;
-    Boolean king = false;
-    int column;
-    int row;
-    Boolean canMove;
-    Boolean canCapture;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     
+     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "player_id")
+    private PlayerModel player;
+
+    private String color;
+    private boolean king = false;
+    private int boardColumn;
+    private int boardRow;
+    private boolean canMove;
+    private boolean canCapture;
+
     public PieceModel() {
     }
 
-    public PieceModel(String color, Boolean king, int column, int row, Boolean canMove, Boolean canCapture) {
+    public PieceModel(String color, boolean king, int boardColumn, int boardRow, boolean canMove, boolean canCapture) {
         this.color = color;
         this.king = king;
-        this.column = column;
-        this.row = row;
+        this.boardColumn = boardColumn;
+        this.boardRow = boardRow;
         this.canMove = canMove;
         this.canCapture = canCapture;
+    }
+
+    // Getters and Setters
+    public long getId() {
+        return id;
     }
 
     public String getColor() {
         return color;
     }
 
-    public Boolean getKing() {
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public boolean isKing() {
         return king;
     }
 
-    public int getColumn() {
-        return column;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public Boolean getCanMove() {
-        return canMove;
-    }
-
-    public Boolean getCanCapture() {
-        return canCapture;
-    }
-
-    public void setKing(Boolean king) {
+    public void setKing(boolean king) {
         this.king = king;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
+    public int getBoardColumn() {
+        return boardColumn;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public void setBoardColumn(int boardColumn) {
+        this.boardColumn = boardColumn;
     }
 
-    public void setCanMove(Boolean canMove) {
+    public int getBoardRow() {
+        return boardRow;
+    }
+
+    public void setBoardRow(int boardRow) {
+        this.boardRow = boardRow;
+    }
+
+    public boolean canMove() {
+        return canMove;
+    }
+
+    public void setCanMove(boolean canMove) {
         this.canMove = canMove;
     }
 
-    public void setCanCapture(Boolean canCapture) {
+    public boolean canCapture() {
+        return canCapture;
+    }
+
+    public void setCanCapture(boolean canCapture) {
         this.canCapture = canCapture;
     }
-    
-    
+
+    public void setPlayer(PlayerModel playerModel) {
+    }
 }
