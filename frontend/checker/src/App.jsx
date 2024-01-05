@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+// import { AuthProvider } from './contexts/AuthContext'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Board from "./components/Board";
+
+import "./App.css";
+import Score from "./components/Score";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
+      <header>
+        <team>
+          <button title="Meet The Team!">About Normal Team Members</button>
+          <button title="Learn his Dark Secrets... (In French!)">
+            About Jacob Specifically
+          </button>
+        </team>
+        <h1>Space Checkers</h1>
+        <nav>
+          <button title="Set Player Name">Set Name</button>
+          <button title="Start new Game">New Game</button>
+          <button title="Hunt an actual person">The Most Dangerous Game</button>
+        </nav>
+      </header>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <main>
+          <Router>
+            randy
+            <Routes>
+              <Route
+                path="/*"
+                element={
+                  <>
+                    <Score /> <Board />
+                  </>
+                }
+              />
+            </Routes>
+          </Router>
+        </main>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,8 +1,156 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+* {
+  /* background-image: linear-gradient(rgb(192, 192, 192, 0.4), rgb(46, 175, 100, 0.4)); */
+  
+
+}
+
+h1 {
+  background-image: linear-gradient(rgb(173, 173, 173), rgb(59, 156, 189));
+  border: transparent;
+  border-radius: 5px;
+}
+
+team {
+  background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
+}
+
+nav {
+  background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
+}
+
+button{
+  background-image: linear-gradient(rgb(29, 79, 95), silver);
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: crosshair;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: silver;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 16vh;
+    margin: 0;
+    background: darkgray;
+    border: solid transparent .4rem;
+    
+    border-image: linear-gradient(0.15turn, silver 30%, black 60%);
+    border-image-slice: 1;
+    border-radius: 1vh;
+    background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-areas:
+    "about title nav"
+    "about title nav"
+    "about title nav" ;
+    text-align: center;
+
+}
+
+body {
+  
+  /* background-image: url(assets/images/tardigrade1.jpg); */
+  background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
+  background-position-y: center;
+    background-position-x: center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: rgb(189, 186, 186, .4);
+    width: 100%;
+    /* height: 100%; */
+
+    margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+main {
+  /* background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
+  background-position-y: center;
+    background-position-x: center;
+    background-attachment: fixed;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: rgb(189, 186, 186, .4);
+    width: 100%; */
+    /* display: flex;
+    flex-direction: row-reverse; */
+}
+
+ul {
+  list-style: none;
+}
+
+p1 {
+  border: solid 3px rgba(169, 169, 169, 0.4);
+    background-image: url(assets/images/tardigrade1.jpg);
+    /* background-position-y: center;
+    background-position-x: center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 100px; */
+    width: 200px;
+    height: 100px;
+}
+
+p2 {
+  border: solid 3px rgba(169, 169, 169, 0.4);
+    background: rgba(169, 169, 169, 0.7) transparent;
+}
+article {
+  flex-direction: column;
+
+}
+
+game-board {
+  
+    background-color: rgb(189, 186, 186, .4);
+    width: auto;
+  border: solid 4px rgb(8, 8, 8, 0.3);
+  border-radius: 5px;
+  margin-top: -20vh;
+  margin-left: 5vh;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  cursor: crosshair;
+
+}
+
+.square {
+  display: block;
+  border: solid 1px black;
+  float: left;
+  position: relative;
+  height: 8vh;
+  width: 8vh;
+}
+.player > img {
+  width: 100px;
+  height: 100px;
 }
 
 .logo {
