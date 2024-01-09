@@ -33,7 +33,7 @@ function App() {
                 path="/*"
                 element={
                   <>
-                    <Score /> <Board />
+                    <Board /><Score /> 
                   </>
                 }
               />
