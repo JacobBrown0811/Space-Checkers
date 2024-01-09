@@ -1,6 +1,5 @@
 package org.wcci.checkers.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wcci.checkers.models.BoardModel;
@@ -12,35 +11,51 @@ import java.util.Optional;
 @RequestMapping("/boards")
 public class BoardController {
 
-    @Autowired
-    private BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
 
+    public BoardController(BoardRepository boardRepository) {
+        this.boardRepository = boardRepository;
+    }
 
     @PostMapping
     public BoardModel createBoard(@RequestBody BoardModel board) {
         return boardRepository.save(board);
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<BoardModel> getBoard(@PathVariable long id) {
         Optional<BoardModel> board = boardRepository.findById(id);
-        if (!board.isPresent()) {
+        if (board.isPresent()) {
+            // Explicitly load tiles if they are lazily loaded
+            board.get().getTiles().size(); // This line is required if tiles are lazily loaded
+            return ResponseEntity.ok(board.get());
+        } else {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(board.get());
+    }
+
+    @GetMapping("/{id}/tiles")
+    public ResponseEntity<?> getBoardTiles(@PathVariable long id) {
+        Optional<BoardModel> board = boardRepository.findById(id);
+        if (board.isPresent()) {
+            // Explicitly load tiles if they are lazily loaded
+            return ResponseEntity.ok(board.get().getTiles());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<BoardModel> updateBoard(@PathVariable long id, @RequestBody BoardModel updatedBoard) {
         return boardRepository.findById(id)
             .map(board -> {
+                // Update the properties of board with updatedBoard
+                // For example: board.setSomeProperty(updatedBoard.getSomeProperty());
                 BoardModel savedBoard = boardRepository.save(board);
                 return ResponseEntity.ok(savedBoard);
             })
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBoard(@PathVariable long id) {
@@ -51,7 +66,7 @@ public class BoardController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("")
     public Iterable<BoardModel> getAllBoards() {
         return boardRepository.findAll();
     }
