@@ -140,7 +140,7 @@ game-board {
 
 }
 
-.square {
+.black {
   display: block;
   border: solid 1px black;
   float: left;
@@ -148,6 +148,16 @@ game-board {
   height: 8vh;
   width: 8vh;
 }
+
+.white {
+  display: block;
+  border: solid 1px white;
+  float: left;
+  position: relative;
+  height: 8vh;
+  width: 8vh;
+}
+
 .player > img {
   width: 100px;
   height: 100px;
