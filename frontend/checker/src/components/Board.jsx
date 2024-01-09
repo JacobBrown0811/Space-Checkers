@@ -5,14 +5,14 @@ import axios from "axios";
 
 const Board = () => {
 
-  const [Board, setBoard] = useState([]);
+  const [board, setBoard] = useState([]);
 
   const fetchBoard = async () => {
 
 
     try {
 
-        const response = await axios.get(`/boards/1/tiles`);
+        const response = await axios.get("/boards/1/tiles");
         setBoard(response.data);
 
     } catch {
@@ -30,20 +30,31 @@ const Board = () => {
 },[])
 
 
-  return (
-    <>
-      <game-board>
+return (
+  <>
+    <game-board>
       {
-        Board.map(
-        Tile => (
-          <div key={Tile.id} className={Tile.color}>{Tile.boardRow}sdukfhgosudhfslodi</div>
-        )
-      )
+        Object.values(
+          board.reduce((rows, tile) => {
+            if (!rows[tile.boardRow]) {
+              rows[tile.boardRow] = [];
+            }
+            rows[tile.boardRow].push(tile);
+            return rows;
+          }, {})
+        ).map((row, index) => (
+          <div key={index}>
+            {
+              row.map(Tile => (
+                <div key={Tile.id} className={Tile.color}>Row: {Tile.boardRow + 1} Col: {Tile.boardColumn +1} {Tile.isPlayable.toString()}</div>
+              ))
+            }
+          </div>
+        ))
       }
-
-      </game-board>
-    </>
-  );
+    </game-board>
+  </>
+ );
 }
 
 export default Board;
