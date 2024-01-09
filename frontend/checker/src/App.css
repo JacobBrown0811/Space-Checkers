@@ -14,6 +14,11 @@ team {
   background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
 }
 
+.score {
+  color: red;
+  
+}
+
 nav {
   background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
 }
@@ -42,11 +47,11 @@ button:focus-visible {
 }
 
 header {
-    position: absolute;
-    top: 0;
+    position: center;
+    /* top: auto ; */
     width: 100%;
-    height: 16vh;
-    margin: 0;
+    /* height: 16vh; */
+    margin: -0.4rem;
     background: darkgray;
     border: solid transparent .4rem;
     
@@ -67,13 +72,11 @@ header {
 }
 
 body {
-  
-  /* background-image: url(assets/images/tardigrade1.jpg); */
   background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
   background-position-y: center;
     background-position-x: center;
     background-attachment: fixed;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     background-color: rgb(189, 186, 186, .4);
     width: 100%;
@@ -82,21 +85,13 @@ body {
     margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
+  justify-content: space-around;
+  min-width: 100;
   min-height: 100vh;
 }
 
 main {
-  /* background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
-  background-position-y: center;
-    background-position-x: center;
-    background-attachment: fixed;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: rgb(189, 186, 186, .4);
-    width: 100%; */
-    /* display: flex;
-    flex-direction: row-reverse; */
+  justify-content: space-around;
 }
 
 ul {
@@ -114,6 +109,7 @@ p1 {
     background-size: 100px; */
     width: 200px;
     height: 100px;
+    
 }
 
 p2 {
@@ -128,14 +124,17 @@ article {
 game-board {
   
     background-color: rgb(189, 186, 186, .4);
-    width: auto;
+    width: -moz-fit-content;
+    width: fit-content;
+    
   border: solid 4px rgb(8, 8, 8, 0.3);
   border-radius: 5px;
   margin-top: -20vh;
   margin-left: 5vh;
   display: flex;
   flex-direction: column;
-  position: fixed;
+  position: center;
+  align-self: center;
   cursor: crosshair;
 
 }
