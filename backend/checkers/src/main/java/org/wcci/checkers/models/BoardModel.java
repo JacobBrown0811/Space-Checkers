@@ -46,4 +46,20 @@ public class BoardModel {
     public void setTiles(List<TileModel> tiles) {
         this.tiles = tiles;
     }
+
+    public void placePiece(Piece piece, int row, int col) {
+    TileModel tile = getTileAt(row, col);
+    if (tile != null) {
+        tile.setPiece(piece); // Set the piece on the tile
+    }
+}
+
+private TileModel getTileAt(int row, int col) {
+    for (TileModel tile : tiles) {
+        if (tile.getBoardRow() == row && tile.getBoardColumn() == col) {
+            return tile;
+        }
+    }
+    return null; // Return null if the tile is not found at the specified row and column
+}
 }

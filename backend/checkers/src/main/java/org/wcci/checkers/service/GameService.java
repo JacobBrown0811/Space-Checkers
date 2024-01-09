@@ -1,108 +1,41 @@
 package org.wcci.checkers.service;
 
-
-
-import org.springframework.stereotype.Service;
 import org.wcci.checkers.models.BoardModel;
-import org.wcci.checkers.models.PieceModel;
-import org.wcci.checkers.models.TileModel;
 import org.wcci.checkers.repositories.BoardRepository;
 import org.wcci.checkers.repositories.PieceRepository;
-import org.wcci.checkers.repositories.TileRepository;
+import org.wcci.checkers.repositories.PlayerRepository;
 
-import java.util.Optional;
-
-@Service
 public class GameService {
-
     private final BoardRepository boardRepository;
     private final PieceRepository pieceRepository;
-    private final TileRepository tileRepository;
+    private final PlayerRepository playerRepository;
 
-    
-    public GameService(BoardRepository boardRepository, PieceRepository pieceRepository, TileRepository tileRepository) {
+    public GameService(BoardRepository boardRepository, PieceRepository pieceRepository,
+            PlayerRepository playerRepository) {
         this.boardRepository = boardRepository;
         this.pieceRepository = pieceRepository;
-        this.tileRepository = tileRepository;
+        this.playerRepository = playerRepository;
     }
 
-    public BoardModel startGame(BoardModel board) {
-        board.drawBoard();
-        setupPieces(board);
-        return boardRepository.save(board);
-    }
-    public boolean movePiece(long pieceId, int newRow, int newColumn) {
-        Optional<PieceModel> pieceOpt = pieceRepository.findById(pieceId);
-        if (pieceOpt.isPresent()) {
-            PieceModel piece = pieceOpt.get();
-            // Add more validation for move legality according to checkers rules
-            piece.setBoardRow(newRow);
-            piece.setBoardColumn(newColumn);
-            pieceRepository.save(piece);
-            return true;
-        }
-        return false;
-    }
-    public String checkGameState() {
-        // Placeholder logic for checking the game state
-        long blackPiecesCount = pieceRepository.countByColor("black");
-        long redPiecesCount = pieceRepository.countByColor("red");
+    public BoardModel startGame() {
+        BoardModel board = new BoardModel();
 
-        // Check if either player has no pieces left
-        if (blackPiecesCount == 0) return "Red wins!";
-        if (redPiecesCount == 0) return "Black wins!";
-
-        // Check for available moves for each player
-        boolean blackCanMove = pieceRepository.existsByColorAndCanMove("black", true);
-        boolean redCanMove = pieceRepository.existsByColorAndCanMove("red", true);
-
-        // Determine the game state based on available moves
-        if (!blackCanMove && !redCanMove) {
-            return "Draw!";
-        } else if (!blackCanMove) {
-            return "Red wins!";
-        } else if (!redCanMove) {
-            return "Black wins!";
-        }
-
-        return "Game is ongoing";
-    }
-
-    // Method to capture a piece
-    public boolean capturePiece(long pieceId) {
-        Optional<PieceModel> pieceOpt = pieceRepository.findById(pieceId);
-        if (pieceOpt.isPresent()) {
-            PieceModel piece = pieceOpt.get();
-            pieceRepository.delete(piece);
-            // Additional logic to handle the removal of captured piece from the board
-            return true;
-        }
-        return false;
-    }
-
-    private void setupPieces(BoardModel board) {
-        for (TileModel tile : board.getTiles()) {
-            if (shouldPlacePiece(tile)) {
-                PieceModel piece = new PieceModel();
-                piece.setColor(determineColor(tile));
-                piece.setBoardRow(tile.getBoardRow());
-                piece.setBoardColumn(tile.getBoardColumn());
-                piece.setKing(false);
-                pieceRepository.save(piece);
-
-                tile.setIsOccupied(true);
-                tileRepository.save(tile);
+        // Setting up black pieces in the first three rows
+        for (int row = 0; row < 3; row++) {
+            for (int col = (row % 2 == 0) ? 1 : 0; col < 8; col += 2) {
+                Piece blackPiece = new Piece(Color.BLACK);
+                board.placePiece(blackPiece, row, col);
             }
         }
-    }
 
-    private boolean shouldPlacePiece(TileModel tile) {
-        int row = tile.getBoardRow();
-        return (row < 3 || row >= 5) && (row % 2 != tile.getBoardColumn() % 2);
-    }
+        // Setting up red pieces in the last three rows
+        for (int row = 5; row < 8; row++) {
+            for (int col = (row % 2 == 0) ? 1 : 0; col < 8; col += 2) {
+                Piece redPiece = new Piece(Color.RED);
+                board.placePiece(redPiece, row, col);
+            }
+        }
 
-    private String determineColor(TileModel tile) {
-        return tile.getBoardRow() < 3 ? "black" : "red";
+        return board;
     }
-
 }

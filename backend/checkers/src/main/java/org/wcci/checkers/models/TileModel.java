@@ -1,5 +1,7 @@
 package org.wcci.checkers.models;
 
+import org.wcci.checkers.service.Piece;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -18,6 +20,8 @@ public class TileModel {
     private int boardRow;
     private String color;
     private boolean isPlayable;
+
+    private Piece piece;
 
     public TileModel() {
     }
@@ -81,5 +85,12 @@ public class TileModel {
 
     public void setBoard(BoardModel board) {
         this.board = board;
+    }
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+        if (piece != null) {
+            piece.setTile(this); // Link the piece to this tile
+        }
     }
 }
