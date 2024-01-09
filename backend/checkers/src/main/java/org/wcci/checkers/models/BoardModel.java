@@ -47,12 +47,7 @@ public class BoardModel {
         this.tiles = tiles;
     }
 
-    public void placePiece(Piece piece, int row, int col) {
-    TileModel tile = getTileAt(row, col);
-    if (tile != null) {
-        tile.setPiece(piece); // Set the piece on the tile
-    }
-}
+
 
 private TileModel getTileAt(int row, int col) {
     for (TileModel tile : tiles) {
