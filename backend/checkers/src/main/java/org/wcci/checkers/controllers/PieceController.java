@@ -7,10 +7,10 @@ import org.wcci.checkers.models.PieceModel;
 import org.wcci.checkers.repositories.PieceRepository;
 
 @RestController
-@RequestMapping("/pieces")
+@RequestMapping("/pieceModels")
 public class PieceController {
 
-    @Autowired
+  
     private PieceRepository pieceRepository;
 
     @PostMapping

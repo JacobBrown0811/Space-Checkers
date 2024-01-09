@@ -1,6 +1,6 @@
 package org.wcci.checkers.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wcci.checkers.models.BoardModel;
@@ -12,8 +12,13 @@ import java.util.Optional;
 @RequestMapping("/boards")
 public class BoardController {
 
-    @Autowired
-    private BoardRepository boardRepository;
+    
+    private final BoardRepository boardRepository;
+
+    public BoardController(BoardRepository boardRepository) {
+        this.boardRepository = boardRepository;
+    }
+
 
 
     @PostMapping
@@ -51,7 +56,7 @@ public class BoardController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("")
     public Iterable<BoardModel> getAllBoards() {
         return boardRepository.findAll();
     }

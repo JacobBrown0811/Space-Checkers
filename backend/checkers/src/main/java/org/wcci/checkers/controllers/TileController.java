@@ -1,10 +1,11 @@
 package org.wcci.checkers.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wcci.checkers.models.BoardModel;
 import org.wcci.checkers.models.TileModel;
+
 import org.wcci.checkers.repositories.TileRepository;
 import java.util.Optional;
 
@@ -13,8 +14,14 @@ import java.util.Optional;
 @RequestMapping("/tiles")
 public class TileController {
 
-    @Autowired
-    private TileRepository tileRepository;
+    
+    private final TileRepository tileRepository;
+
+    public TileController(TileRepository tileRepository) {
+        this.tileRepository = tileRepository;
+    }
+
+  
 
     @PostMapping
     public TileModel createTile(@RequestBody TileModel tile) {
