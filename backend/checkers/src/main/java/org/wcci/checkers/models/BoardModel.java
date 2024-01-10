@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.wcci.checkers.service.Piece;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class BoardModel {
@@ -17,7 +17,7 @@ public class BoardModel {
     private List<TileModel> tiles = new ArrayList<>();
 
     public BoardModel() {
-        drawBoard();
+        drawBoard();//may need to move to service
     }
 
     public void drawBoard() {
@@ -38,6 +38,7 @@ public class BoardModel {
         return id;
     }
 
+ @JsonIgnore
     public List<TileModel> getTiles() {
         return tiles;
     }
@@ -46,12 +47,7 @@ public class BoardModel {
         this.tiles = tiles;
     }
 
-    public void placePiece(Piece piece, int row, int col) {
-    TileModel tile = getTileAt(row, col);
-    if (tile != null) {
-        tile.setPiece(piece); // Set the piece on the tile
-    }
-}
+
 
 private TileModel getTileAt(int row, int col) {
     for (TileModel tile : tiles) {

@@ -21,7 +21,6 @@ public class TileModel {
     private String color;
     private boolean isPlayable;
 
-    private Piece piece;
 
     public TileModel() {
     }
@@ -87,10 +86,10 @@ public class TileModel {
         this.board = board;
     }
 
-    public void setPiece(Piece piece) {
-        this.piece = piece;
-        if (piece != null) {
-            piece.setTile(this); // Link the piece to this tile
-        }
-    }
+    // public void setPiece(Piece piece) {
+    //     this.piece = piece;
+    //     if (piece != null) {
+    //         piece.setTile(this); // Link the piece to this tile
+    //     }
+    // }
 }

@@ -128,7 +128,18 @@ body {
 }
 
 main {
-  justify-content: space-around;
+  background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
+  background-position-y: center;
+    background-position-x: center;
+    background-attachment: fixed;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: rgb(189, 186, 186, .4);
+    width: 100%;
+    margin: auto;
+    display: flex;
+
+    
 }
 
 ul {
@@ -161,30 +172,43 @@ article {
 
 game-board {
   
+  background-color: rgb(189, 186, 186, .4);
     background-color: rgb(189, 186, 186, .4);
     width: -moz-fit-content;
     width: fit-content;
     
   border: solid 4px rgb(8, 8, 8, 0.3);
   border-radius: 5px;
-  margin-top: -20vh;
-  margin-left: 5vh;
   display: flex;
   flex-direction: column;
   position: center;
   align-self: center;
   cursor: crosshair;
+  margin: auto;
 
 }
 
-.square {
+.black {
   display: block;
+  color: white;
+  background-color: black;
   border: solid 1px black;
   float: left;
   position: relative;
   height: 8vh;
   width: 8vh;
 }
+
+.white {
+  display: block;
+  background-color: white;
+  border: solid 1px white;
+  float: left;
+  position: relative;
+  height: 8vh;
+  width: 8vh;
+}
+
 .player > img {
   width: 100px;
   height: 100px;
