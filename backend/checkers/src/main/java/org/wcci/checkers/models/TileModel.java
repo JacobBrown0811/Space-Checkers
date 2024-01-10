@@ -1,6 +1,6 @@
 package org.wcci.checkers.models;
 
-import org.wcci.checkers.service.Piece;
+import org.wcci.checkers.service.PieceService;
 
 import jakarta.persistence.*;
 
