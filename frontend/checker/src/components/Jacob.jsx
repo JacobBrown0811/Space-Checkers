@@ -1,17 +1,16 @@
 const Jacob = () => {
   return (
     <article className="team">
-      <div id="jacob">
+      <div className="member" id="jacob">
         <img
           src="./src/assets/images/paladin.jpg"
           alt="Probably the same guy"
         />
         <h2>
-          Les autorit&eacute;s
-          m&apos;ont surpris en train de faire l&apos;amour au Louvre !
+        Laissez le bon temps rouler!
         </h2>
       </div>
-        <a href="/game">
+        <a href="/">
       <button>Close</button>
       </a>
     </article>

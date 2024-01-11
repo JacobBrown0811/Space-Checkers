@@ -12,7 +12,9 @@ const Header = () => {
           </button>
         </a>
       </team>
+      <mid>
       <h1>Space Checkers</h1>
+      <icons>
       <div className="player" id="p1">
               <img src="./src/assets/images/tardigrade1.jpg" alt="This" />
               </div>
@@ -24,6 +26,8 @@ const Header = () => {
               <div className="player" id="p2">
                 <img src="./src/assets/images/DeltaGlobeOrbit.png" alt="Space Force!" />
               </div>
+              </icons>
+              </mid>
       <nav>
         <button title="Set Player Name">Set Name</button>
         <button title="Start new Game">New Game</button>
