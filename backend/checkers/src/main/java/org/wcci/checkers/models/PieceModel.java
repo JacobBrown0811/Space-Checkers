@@ -15,6 +15,11 @@ public class PieceModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private BoardModel board;
+
+    
      @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
     private PlayerModel player;
@@ -93,4 +98,12 @@ public class PieceModel {
 
     public void setPlayer(PlayerModel playerModel) {
     }
+    public BoardModel getBoard() {
+        return board;
+    }
+
+    public void setBoard(BoardModel board) {
+        this.board = board;
+    }
+    
 }

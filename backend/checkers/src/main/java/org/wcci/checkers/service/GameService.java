@@ -1,41 +1,50 @@
-// package org.wcci.checkers.service;
+package org.wcci.checkers.service;
 
-// import org.wcci.checkers.models.BoardModel;
-// import org.wcci.checkers.repositories.BoardRepository;
-// import org.wcci.checkers.repositories.PieceRepository;
-// import org.wcci.checkers.repositories.PlayerRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.wcci.checkers.models.BoardModel;
+import org.wcci.checkers.repositories.BoardRepository;
+import org.wcci.checkers.repositories.PieceRepository;
 
-// public class GameService {
-//     private final BoardRepository boardRepository;
-//     private final PieceRepository pieceRepository;
-//     private final PlayerRepository playerRepository;
+@Service
+public class GameService {
 
-//     public GameService(BoardRepository boardRepository, PieceRepository pieceRepository,
-//             PlayerRepository playerRepository) {
-//         this.boardRepository = boardRepository;
-//         this.pieceRepository = pieceRepository;
-//         this.playerRepository = playerRepository;
-//     }
+    private final BoardRepository boardRepository;
+    private final PieceRepository pieceRepository;
+    private final PieceService pieceService; 
 
-//     public BoardModel startGame() {
-//         BoardModel board = new BoardModel();
+    public GameService(BoardRepository boardRepository, PieceRepository pieceRepository, PieceService pieceService) {
+        this.boardRepository = boardRepository;
+        this.pieceRepository = pieceRepository;
+        this.pieceService = pieceService;
+    }
 
-//         // Setting up black pieces in the first three rows
-//         for (int row = 0; row < 3; row++) {
-//             for (int col = (row % 2 == 0) ? 1 : 0; col < 8; col += 2) {
-//                 Piece blackPiece = new Piece(Color.BLACK);
-//                 board.placePiece(blackPiece, row, col);
-//             }
-//         }
+    @Transactional
+    public BoardModel startGame() {
+        BoardModel board = new BoardModel();
+        board.drawBoard();
+        pieceService.setupPieces(board);
+        return boardRepository.save(board);
+    }
 
-//         // Setting up red pieces in the last three rows
-//         for (int row = 5; row < 8; row++) {
-//             for (int col = (row % 2 == 0) ? 1 : 0; col < 8; col += 2) {
-//                 Piece redPiece = new Piece(Color.RED);
-//                 board.placePiece(redPiece, row, col);
-//             }
-//         }
+ 
+    public String checkGameState() {
+        long blackPiecesCount = pieceRepository.countByColor("black");
+        long redPiecesCount = pieceRepository.countByColor("red");
 
-//         return board;
-//     }
-// }
+        boolean blackCanMove = canPlayerMove("black");
+        boolean redCanMove = canPlayerMove("red");
+
+        if (blackPiecesCount == 0 || !blackCanMove) {
+            return "Red wins!";
+        } else if (redPiecesCount == 0 || !redCanMove) {
+            return "Black wins!";
+        } else {
+            return "Game is ongoing";
+        }
+    }
+
+    private boolean canPlayerMove(String string) {
+        return false;
+    }
+}
