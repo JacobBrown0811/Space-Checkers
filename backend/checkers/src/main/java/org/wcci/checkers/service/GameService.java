@@ -22,8 +22,9 @@ public class GameService {
     @Transactional
     public BoardModel startGame() {
         BoardModel board = new BoardModel();
-        board.drawBoard();
-        pieceService.setupPieces(board);
+        board.drawTiles();
+        // pieceService.setupPieces(board);
+        board.drawPieces();
         return boardRepository.save(board);
     }
 
