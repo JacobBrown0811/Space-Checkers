@@ -39,14 +39,15 @@ public class BoardModel {
     public void drawPieces() {
         for (TileModel tile : this.getTiles()) {
             int row = tile.getBoardRow();
-            if ((row < 3 || row >= 5) && tile.getColor().equals("white")) {
+            if ((row < 3 || row >= 5) && tile.getColor().equals("black")) {
                 PieceModel piece = new PieceModel();
-                piece.setColor(row < 3 ? "red" : "black");
+                piece.setColor(row < 3 ? "red" : "blue");
                 piece.setBoardRow(row);
                 piece.setBoardColumn(tile.getBoardColumn());
                 piece.setKing(false);
                 piece.setBoard(this);
                 tile.setIsOccupied(true);
+                piece.setTile(tile);
                 pieces.add(piece);
             }
         }

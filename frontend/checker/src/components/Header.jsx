@@ -2,7 +2,7 @@ const Header = () => {
   return (
     <div>
     <header>
-      <team>
+      <div id="team">
         <a href="/team">
           <button title="Meet The Team!">About Normal Team Members</button>
         </a>
@@ -11,23 +11,23 @@ const Header = () => {
             About Jacob Specifically
           </button>
         </a>
-      </team>
-      <mid>
+      </div>
+      <div id="mid">
       <h1>Space Checkers</h1>
-      <icons>
+      <div id="icons">
       <div className="player" id="p1">
               <img src="./src/assets/images/tardigrade1.jpg" alt="This" />
               </div>
             
             
-              <score className="score" >VS.</score>
+              <div id="score" className="score" >VS.</div>
             
             
               <div className="player" id="p2">
                 <img src="./src/assets/images/DeltaGlobeOrbit.png" alt="Space Force!" />
               </div>
-              </icons>
-              </mid>
+              </div>
+              </div>
       <nav>
         <button title="Set Player Name">Set Name</button>
         <button title="Start new Game">New Game</button>
