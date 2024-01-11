@@ -43,26 +43,18 @@ public class PieceService {
 
     public void setupPieces(BoardModel board) {
         for (TileModel tile : board.getTiles()) {
-            if (shouldPlacePiece(tile)) {
+            int row = tile.getBoardRow();
+            if ((row < 3 || row >= 5) && tile.getColor().equals("white")) {
                 PieceModel piece = new PieceModel();
-                piece.setColor(determineColor(tile));
-                piece.setBoardRow(tile.getBoardRow());
+                piece.setColor(row < 3 ? "red" : "black");
+                piece.setBoardRow(row);
                 piece.setBoardColumn(tile.getBoardColumn());
                 piece.setKing(false);
+                piece.setBoard(board);
                 pieceRepository.save(piece);
-
                 tile.setIsOccupied(true);
                 tileRepository.save(tile);
             }
         }
-    }
-
-    private boolean shouldPlacePiece(TileModel tile) {
-        int row = tile.getBoardRow();
-        return (row < 3 || row >= 5) && (row % 2 != tile.getBoardColumn() % 2);
-    }
-
-    private String determineColor(TileModel tile) {
-        return tile.getBoardRow() < 3 ? "black" : "red";
     }
 }

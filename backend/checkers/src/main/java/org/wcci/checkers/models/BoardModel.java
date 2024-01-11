@@ -17,7 +17,7 @@ public class BoardModel {
     private List<TileModel> tiles = new ArrayList<>();
 
     public BoardModel() {
-        drawBoard();//may need to move to service
+        // drawBoard();//may need to move to service
     }
 
     public void drawBoard() {

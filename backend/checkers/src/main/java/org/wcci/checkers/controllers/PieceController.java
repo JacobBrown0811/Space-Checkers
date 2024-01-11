@@ -8,7 +8,7 @@ import org.wcci.checkers.repositories.PieceRepository;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/pieceModels")
+@RequestMapping("/pieces")
 public class PieceController {
 
   
