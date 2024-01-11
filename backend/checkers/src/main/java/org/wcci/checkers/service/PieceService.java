@@ -41,20 +41,20 @@ public class PieceService {
         return false;
     }
 
-    public void setupPieces(BoardModel board) {
-        for (TileModel tile : board.getTiles()) {
-            int row = tile.getBoardRow();
-            if ((row < 3 || row >= 5) && tile.getColor().equals("white")) {
-                PieceModel piece = new PieceModel();
-                piece.setColor(row < 3 ? "red" : "black");
-                piece.setBoardRow(row);
-                piece.setBoardColumn(tile.getBoardColumn());
-                piece.setKing(false);
-                piece.setBoard(board);
-                pieceRepository.save(piece);
-                tile.setIsOccupied(true);
-                tileRepository.save(tile);
-            }
-        }
-    }
+    // public void setupPieces(BoardModel board) {
+    //     for (TileModel tile : board.getTiles()) {
+    //         int row = tile.getBoardRow();
+    //         if ((row < 3 || row >= 5) && tile.getColor().equals("white")) {
+    //             PieceModel piece = new PieceModel();
+    //             piece.setColor(row < 3 ? "red" : "black");
+    //             piece.setBoardRow(row);
+    //             piece.setBoardColumn(tile.getBoardColumn());
+    //             piece.setKing(false);
+    //             piece.setBoard(board);
+    //             pieceRepository.save(piece);
+    //             tile.setIsOccupied(true);
+    //             tileRepository.save(tile);
+    //         }
+    //     }
+    // }
 }
