@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class BoardModel {
+    
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,11 +17,14 @@ public class BoardModel {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TileModel> tiles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PieceModel> pieces = new ArrayList<>();
+
     public BoardModel() {
-        drawBoard();//may need to move to service
+        // drawBoard();//may need to move to service
     }
 
-    public void drawBoard() {
+    public void drawTiles() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 TileModel tile = new TileModel();
@@ -29,6 +33,22 @@ public class BoardModel {
                 tile.setColor((row % 2 != col % 2) ? "white" : "black");
                 tile.setBoard(this); // Link each tile to the board
                 tiles.add(tile);
+            }
+        }
+    }
+    public void drawPieces() {
+        for (TileModel tile : this.getTiles()) {
+            int row = tile.getBoardRow();
+            if ((row < 3 || row >= 5) && tile.getColor().equals("black")) {
+                PieceModel piece = new PieceModel();
+                piece.setColor(row < 3 ? "red" : "blue");
+                piece.setBoardRow(row);
+                piece.setBoardColumn(tile.getBoardColumn());
+                piece.setKing(false);
+                piece.setBoard(this);
+                tile.setIsOccupied(true);
+                piece.setTile(tile);
+                pieces.add(piece);
             }
         }
     }
@@ -57,4 +77,13 @@ private TileModel getTileAt(int row, int col) {
     }
     return null; // Return null if the tile is not found at the specified row and column
 }
+@JsonIgnore
+public List<PieceModel> getPieces() {
+    return pieces;
+}
+
+public void setPieces(List<PieceModel> pieces) {
+    this.pieces = pieces;
+}
+
 }

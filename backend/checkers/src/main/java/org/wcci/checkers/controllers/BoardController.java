@@ -45,6 +45,16 @@ public class BoardController {
         }
     }
 
+    @GetMapping("/{id}/pieces")
+    public ResponseEntity<?> getBoardPieces(@PathVariable long id) {
+        Optional<BoardModel> board = boardRepository.findById(id);
+        if (board.isPresent()) {
+            // Explicitly load tiles if they are lazily loaded
+            return ResponseEntity.ok(board.get().getPieces());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @PutMapping("/{id}")
     public ResponseEntity<BoardModel> updateBoard(@PathVariable long id, @RequestBody BoardModel updatedBoard) {
         return boardRepository.findById(id)

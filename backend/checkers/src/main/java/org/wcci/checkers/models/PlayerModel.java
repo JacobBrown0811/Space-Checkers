@@ -24,7 +24,7 @@ public class PlayerModel {
     }
 
     // Add a piece to the player's set of pieces
-    public void addPiece(PieceModel piece) {
+    public void drawPiece(PieceModel piece) {
         pieces.add(piece);
         piece.setPlayer(this); // Set the back reference to the player
     }
