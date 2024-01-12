@@ -1,5 +1,8 @@
 const Team = () => {
 
+    /**
+     * Ryan, Ronald, and Josh profiles
+     */
     return (
     <article className="team">
     

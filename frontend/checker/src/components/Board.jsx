@@ -5,6 +5,9 @@ const Board = () => {
   const [tiles, setTiles] = useState([]);
   const [pieces, setPieces] = useState([]);
 
+/**
+ * Place tiles on the board
+ */
   const fetchTiles = async () => {
     try {
       const response = await axios.get("/boards/1/tiles");
@@ -14,6 +17,9 @@ const Board = () => {
     }
   };
 
+/**
+ * Place pieces on the board
+ */
   const fetchPieces = async () => {
     try {
       const response = await axios.get("/boards/1/pieces");
@@ -33,10 +39,13 @@ const Board = () => {
 
   return (
     <>
+    {/**
+     * build game board
+     */}
       <game-board>
         {Object.values(
           tiles.reduce((rows, tile) => {
-            if (!rows[tile.boardRow]) {
+            if (!rows[tile.boardRow]) { 
               rows[tile.boardRow] = [];
             }
             rows[tile.boardRow].push(tile);
@@ -45,12 +54,12 @@ const Board = () => {
         ).map((row, index) => (
           <div key={index}>
             {row.map((tile) => {
-              const matchingPiece = pieces.find((piece) => piece.tile.id === tile.id);
+              const matchingPiece = pieces.find((piece) => piece.tile.id === tile.id); 
 
               return (
                 <div key={tile.id} className={`${tile.color} ${tile.isOccupied ? 'occupied' : ''}`}>
                   {tile.isOccupied && matchingPiece && (
-                    <div className={`piece ${matchingPiece.color}`}></div>
+                    <div className={`piece ${matchingPiece.color}`}></div> // Populate the board with pieces
                   )}
                 </div>
               );

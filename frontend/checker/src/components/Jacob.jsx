@@ -1,4 +1,7 @@
 const Jacob = () => {
+  /**
+   * Jacobs profile
+   */
   return (
     <article className="team">
       <div className="member" id="jacob">

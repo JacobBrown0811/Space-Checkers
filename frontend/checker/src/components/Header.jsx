@@ -1,4 +1,8 @@
 const Header = () => {
+
+  /**
+   * build header nav bar
+   */
   return (
     <div>
     <header>
