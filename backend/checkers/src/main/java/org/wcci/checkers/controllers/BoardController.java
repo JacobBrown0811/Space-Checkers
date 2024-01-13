@@ -17,11 +17,23 @@ public class BoardController {
         this.boardRepository = boardRepository;
     }
 
+    /**
+     * returns new board
+     * 
+     * @param board
+     * @return
+     */
     @PostMapping
     public BoardModel createBoard(@RequestBody BoardModel board) {
         return boardRepository.save(board);
     }
 
+    /**
+     * return tiles if the board exists
+     * 
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public ResponseEntity<BoardModel> getBoard(@PathVariable long id) {
         Optional<BoardModel> board = boardRepository.findById(id);
@@ -34,6 +46,12 @@ public class BoardController {
         }
     }
 
+    /**
+     * return tiles by board ID
+     * 
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}/tiles")
     public ResponseEntity<?> getBoardTiles(@PathVariable long id) {
         Optional<BoardModel> board = boardRepository.findById(id);
@@ -45,6 +63,12 @@ public class BoardController {
         }
     }
 
+    /**
+     * return pieces byt board ID
+     * 
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}/pieces")
     public ResponseEntity<?> getBoardPieces(@PathVariable long id) {
         Optional<BoardModel> board = boardRepository.findById(id);
@@ -55,18 +79,32 @@ public class BoardController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    /**
+     * Update board by ID
+     * 
+     * @param id
+     * @param updatedBoard
+     * @return
+     */
     @PutMapping("/{id}")
     public ResponseEntity<BoardModel> updateBoard(@PathVariable long id, @RequestBody BoardModel updatedBoard) {
         return boardRepository.findById(id)
-            .map(board -> {
-                // Update the properties of board with updatedBoard
-                // For example: board.setSomeProperty(updatedBoard.getSomeProperty());
-                BoardModel savedBoard = boardRepository.save(board);
-                return ResponseEntity.ok(savedBoard);
-            })
-            .orElseGet(() -> ResponseEntity.notFound().build());
+                .map(board -> {
+                    // Update the properties of board with updatedBoard
+                    // For example: board.setSomeProperty(updatedBoard.getSomeProperty());
+                    BoardModel savedBoard = boardRepository.save(board);
+                    return ResponseEntity.ok(savedBoard);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * Delete board by ID
+     * 
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBoard(@PathVariable long id) {
         if (!boardRepository.existsById(id)) {
@@ -76,6 +114,11 @@ public class BoardController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Return all boards
+     * 
+     * @return
+     */
     @GetMapping("")
     public Iterable<BoardModel> getAllBoards() {
         return boardRepository.findAll();

@@ -75,7 +75,7 @@ private TileModel getTileAt(int row, int col) {
             return tile;
         }
     }
-    return null; // Return null if the tile is not found at the specified row and column
+    return null; // TODO are we using this? Return null if the tile is not found at the specified row and column
 }
 @JsonIgnore
 public List<PieceModel> getPieces() {

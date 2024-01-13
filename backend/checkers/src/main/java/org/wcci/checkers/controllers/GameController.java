@@ -15,12 +15,22 @@ public class GameController {
         this.gameService = gameService;
     }
 
+    /**
+     * Starts new game and establishes board
+     * 
+     * @return
+     */
     @PostMapping("/start")
     public ResponseEntity<BoardModel> startGame() {
         BoardModel board = gameService.startGame();
         return ResponseEntity.ok(board);
     }
 
+    /**
+     * Returns game state
+     * 
+     * @return
+     */
     @GetMapping("/state")
     public ResponseEntity<String> checkGameState() {
         String gameState = gameService.checkGameState();

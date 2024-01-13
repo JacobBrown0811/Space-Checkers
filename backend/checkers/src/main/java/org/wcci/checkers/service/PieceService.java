@@ -20,6 +20,15 @@ public class PieceService {
         this.tileRepository = tileRepository;
     }
 
+    /**
+     * set piece location on move.
+     * TODO Needs update to use tile ID instead of row, column
+     * 
+     * @param pieceId
+     * @param newRow
+     * @param newColumn
+     * @return
+     */
     public boolean movePiece(long pieceId, int newRow, int newColumn) {
         Optional<PieceModel> pieceOpt = pieceRepository.findById(pieceId);
         if (pieceOpt.isPresent()) {
@@ -32,6 +41,12 @@ public class PieceService {
         return false;
     }
 
+    /**
+     * delete piece on capture
+     * 
+     * @param pieceId
+     * @return
+     */
     public boolean capturePiece(long pieceId) {
         Optional<PieceModel> pieceOpt = pieceRepository.findById(pieceId);
         if (pieceOpt.isPresent()) {
@@ -41,20 +56,4 @@ public class PieceService {
         return false;
     }
 
-    // public void setupPieces(BoardModel board) {
-    //     for (TileModel tile : board.getTiles()) {
-    //         int row = tile.getBoardRow();
-    //         if ((row < 3 || row >= 5) && tile.getColor().equals("white")) {
-    //             PieceModel piece = new PieceModel();
-    //             piece.setColor(row < 3 ? "red" : "black");
-    //             piece.setBoardRow(row);
-    //             piece.setBoardColumn(tile.getBoardColumn());
-    //             piece.setKing(false);
-    //             piece.setBoard(board);
-    //             pieceRepository.save(piece);
-    //             tile.setIsOccupied(true);
-    //             tileRepository.save(tile);
-    //         }
-    //     }
-    // }
 }

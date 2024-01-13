@@ -44,7 +44,7 @@ public class TileController {
 // }
 
 
-// updates the tiles if it isnt or is occupied
+// updates the tiles if it becomes occupied or unoccupied
 @PutMapping("/{id}")
     public ResponseEntity<TileModel> updateTile(@PathVariable long id, @RequestBody TileModel updatedTile) {
         return tileRepository.findById(id)

@@ -5,9 +5,9 @@ import org.wcci.checkers.models.PieceModel;
 
 public interface PieceRepository extends CrudRepository<PieceModel, Long> {
     
-    // Method to count pieces by color
+    // TODO Method to count pieces by color
     long countByColor(String color);
 
-    // Method to check if there are pieces of a certain color that can move
+    // TODO Method to check if there are pieces of a certain color that can move
     boolean existsByColorAndCanMove(String color, boolean canMove);
 }
