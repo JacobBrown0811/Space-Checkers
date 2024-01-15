@@ -11,7 +11,7 @@ public class GameService {
 
     private final BoardRepository boardRepository;
     private final PieceRepository pieceRepository;
-    private final PieceService pieceService; 
+    private final PieceService pieceService;
 
     public GameService(BoardRepository boardRepository, PieceRepository pieceRepository, PieceService pieceService) {
         this.boardRepository = boardRepository;
@@ -19,6 +19,11 @@ public class GameService {
         this.pieceService = pieceService;
     }
 
+    /**
+     * starts new game, builds new board
+     * 
+     * @return
+     */
     @Transactional
     public BoardModel startGame() {
         BoardModel board = new BoardModel();
@@ -28,7 +33,12 @@ public class GameService {
         return boardRepository.save(board);
     }
 
- 
+    /**
+     * checks game state for available moves and game ending conditions
+     * TODO might need stalemate condition
+     * 
+     * @return
+     */
     public String checkGameState() {
         long blackPiecesCount = pieceRepository.countByColor("black");
         long redPiecesCount = pieceRepository.countByColor("red");
@@ -45,6 +55,13 @@ public class GameService {
         }
     }
 
+    /**
+     * determines whether player can move
+     * TODO Needs logic
+     * 
+     * @param string
+     * @return
+     */
     private boolean canPlayerMove(String string) {
         return false;
     }

@@ -1,6 +1,8 @@
 
 const Score = () => {
-
+/**
+ * Players and turn indicator
+ */
 return (
 <article>
 
