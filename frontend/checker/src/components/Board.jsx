@@ -37,6 +37,20 @@ const Board = () => {
     fetchData();
   }, []);
 
+  
+  const selectedPiece = document.getElementById("13");
+  // selectedPiece.addEventListener("click", movePiece()); 
+
+  async function movePiece(matchingPiece) {
+    try {
+      matchingPiece.id = 35;
+      await axios.post(`/pieces/${matchingPiece.id}`)
+      console.log("did it work?")
+    } catch {
+      console.error("bad times")
+    }
+  }
+
   return (
     <>
     {/**
@@ -59,7 +73,7 @@ const Board = () => {
               return (
                 <div key={tile.id} className={`${tile.color} ${tile.isOccupied ? 'occupied' : ''}`}>
                   {tile.isOccupied && matchingPiece && (
-                    <div className={`piece ${matchingPiece.color}`}></div> // Populate the board with pieces
+                    <div className={`piece ${matchingPiece.color} ${matchingPiece.id}`} onClick={()=> movePiece(matchingPiece)}></div> // Populate the board with pieces
                   )}
                 </div>
               );

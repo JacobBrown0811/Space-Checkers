@@ -4,24 +4,46 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wcci.checkers.models.PieceModel;
 import org.wcci.checkers.repositories.PieceRepository;
+import org.wcci.checkers.repositories.TileRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Optional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/pieces")
 public class PieceController {
 
     private PieceRepository pieceRepository;
-
+    private TileRepository tileRepository;
     /**
      * Create/Update a piece
      * 
      * @param piece
      * @return
      */
-    @PostMapping
-    public PieceModel createPiece(@RequestBody PieceModel piece) {
-        return pieceRepository.save(piece);
+    // @PostMapping("/{id}")
+    // public PieceModel createPiece(@RequestBody PieceModel piece) {
+    //     return pieceRepository.save(piece);
+    // }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> postPiece(@PathVariable long id, HttpServletRequest request) {
+        try {
+            PieceModel model = new PieceModel();
+            model.setTile(tileRepository.findById(id).get());
+            pieceRepository.save(model);
+            return ResponseEntity.ok("");
+        } catch (Exception e) {
+            // TODO: handle exception
+            return ResponseEntity.ok("bad");
+        }
+        
     }
+    
 
     /**
      * retrieve a pieceModel
