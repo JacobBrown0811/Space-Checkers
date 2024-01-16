@@ -55,6 +55,29 @@ public class PieceService {
         return false;
     }
 
+    public boolean canMove(long pieceId) {
+        Optional<PieceModel> pieceOpt = pieceRepository.findById(pieceId);
+        if (pieceOpt.isPresent()) {
+            try {
+                PieceModel piece = pieceOpt.get();
+                int pRow = piece.getBoardRow();
+                int pCol = piece.getBoardColumn();
+                long tileId = piece.getTile().getId();
+                    long trTile = tileId - 7;
+                    long tlTile = tileId - 9;
+                if (piece.isKing()) {
+                    long brTile = tileId + 9;
+                    long blTile = tileId + 7;
+                } else {                  
+                    if ()
+                }
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+        return false;
+    }
+
     
 
     /**
