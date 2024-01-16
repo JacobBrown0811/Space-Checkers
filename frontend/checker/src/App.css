@@ -194,6 +194,10 @@ game-board {
   border: 2px solid gray;
 }
 
+.piece:hover{
+  box-shadow: 0px 0px 6px 6px silver;
+}
+
 .red {
   background-color: red;
 }
