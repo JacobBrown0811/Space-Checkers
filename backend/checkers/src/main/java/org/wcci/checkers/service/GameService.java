@@ -40,20 +40,22 @@ public class GameService {
      * @return
      */
     public String checkGameState() {
-        long blackPiecesCount = pieceRepository.countByColor("black");
+        long bluePiecesCount = pieceRepository.countByColor("blue");
         long redPiecesCount = pieceRepository.countByColor("red");
 
-        boolean blackCanMove = canPlayerMove("black");
+        boolean blueCanMove = canPlayerMove("blue");
         boolean redCanMove = canPlayerMove("red");
 
-        if (blackPiecesCount == 0 || !blackCanMove) {
+        if (bluePiecesCount == 0 || !blueCanMove) {
             return "Red wins!";
         } else if (redPiecesCount == 0 || !redCanMove) {
-            return "Black wins!";
+            return "Blue wins!";
         } else {
             return "Game is ongoing";
         }
     }
+
+
 
     /**
      * determines whether player can move
