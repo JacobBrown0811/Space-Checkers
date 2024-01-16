@@ -29,17 +29,33 @@ public class PieceService {
      * @param newColumn
      * @return
      */
-    public boolean movePiece(long pieceId, int newRow, int newColumn) {
+    public boolean movePiece(long pieceId, long newTileId) {
         Optional<PieceModel> pieceOpt = pieceRepository.findById(pieceId);
+        Optional<TileModel> tileOpt = tileRepository.findById(newTileId);
+        
         if (pieceOpt.isPresent()) {
+            try {
             PieceModel piece = pieceOpt.get();
-            piece.setBoardRow(newRow);
-            piece.setBoardColumn(newColumn);
+            TileModel newTile = tileOpt.get();
+            TileModel oldTile = piece.getTile();
+            oldTile.setIsOccupied(false);
+            piece.setBoardRow(newTile.getBoardRow());
+            piece.setBoardColumn(newTile.getBoardColumn());
+            newTile.setIsOccupied(true);
+            tileRepository.save(oldTile);
+            tileRepository.save(newTile);
             pieceRepository.save(piece);
             return true;
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println("No can do bud: " + e.getMessage());
+            return false;
+        }
         }
         return false;
     }
+
+    
 
     /**
      * delete piece on capture
