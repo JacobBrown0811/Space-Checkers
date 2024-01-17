@@ -35,46 +35,39 @@ const Board = () => {
       await fetchPieces();
     };
     fetchData();
-  }, []);
-
-  
-  const selectedPiece = document.getElementById("13");
-  // selectedPiece.addEventListener("click", movePiece()); 
+  }, []); 
 
     function showMoves(matchingPiece) {
-    const piece = matchingPiece.tile.id;
-    const moveL = piece - 9;
-    const moveR = piece - 7;
+    const tileId = matchingPiece.tile.id;
+    const moveL = tileId - 9;
+    const moveR = tileId - 7;
 
     const leftElements = document.getElementsByClassName('black ' + moveL);
     const rightElements = document.getElementsByClassName('black ' + moveR);
   
     Array.from(leftElements).forEach(element => {
       element.style.backgroundColor = 'green';
+      element.addEventListener('click', movePiece(matchingPiece.id, moveL))
     });
   
     Array.from(rightElements).forEach(element => {
       element.style.backgroundColor = 'green';
+      element.addEventListener('click', movePiece(matchingPiece.id, moveR))
     });
-
-    // const left = document.('.black.' + moveL);
-    // const right = document.querySelector('.black.' + moveR);
-    // left.style.backgroundColor = 'green';
-    // right.style.backgroundColor = 'green';
   }
 
-  async function movePiece(matchingPiece, tileId) {
-    const piece = matchingPiece;
+  async function movePiece(pieceId, tileId) {
+    const piece = pieceId;
     const newTile = tileId;
     const both = [piece, newTile]
     console.log(both)
     try {
-      
-
-      console.log("did it work?")
+      await axios.put(`/pieces/${piece}`, both)
+      console.log("did it work?") // TODO remove before deploy
     } catch {
       console.error("bad times")
     }
+    document.location.reload();
   }
 
   return (
