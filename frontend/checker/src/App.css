@@ -1,7 +1,14 @@
+* {
+  font-family: fantasy;
+  font-weight: 1;
+}
+
 h1 {
-  background-image: linear-gradient(rgb(173, 173, 173), rgb(59, 156, 189));
+  background-image: linear-gradient(rgb(59, 156, 189), rgb(173, 173, 173));
   border: transparent;
-  border-radius: 5px;
+  margin: 0px 0px 0px 0px;
+  font-size: 56px;
+  -webkit-text-stroke: 2px silver;
 }
 
 h2 {
@@ -12,6 +19,8 @@ h2 {
 
 .team {
   background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
+  align-content: center;
+  
 }
 
 .team > img{
@@ -28,25 +37,18 @@ h2 {
   align-items: center;
 }
 
-#jacob {
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
-}
-
-#jacob > article {
-  background-color: rgb(187, 176, 176, 0.9);
-}
-
 
 .score {
   color: red;
   grid-area: auto;
+  align-self: center;
 }
 
 nav {
+  display: flex;
   background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
+  justify-content: space-around;
+  padding: 10px;
 }
 
 button{
@@ -54,8 +56,11 @@ button{
 }
 
 button {
+  margin: 5px;
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid ;
+  border-right: 2px solid;
+  border-bottom: 3px solid;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
@@ -63,10 +68,14 @@ button {
   background-color: #1a1a1a;
   cursor: crosshair;
   transition: border-color 0.25s;
+  width: 200px;
+  
+  font-size: 24px;
 }
 
 button:hover {
-  border-color: silver;
+  margin: 0px;
+  box-shadow: inset 0px 0px 6px 6px silver;
 }
 
 button:focus,
@@ -79,8 +88,10 @@ button:focus-visible {
 */
 header {
     position: center;
-    width: 100%;
-    margin: 0;
+    width: 95%;
+    max-width: 700px;
+    margin: auto;
+    margin-top: 10px;
     background: darkgray;
     border: solid transparent .4rem;
     
@@ -90,14 +101,14 @@ header {
     background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
     background-origin: border-box;
     background-clip: padding-box, border-box;
-    display: grid;
+    /* display: grid;
     grid-template-columns: 1fr 3fr 1fr;
     grid-template-areas:
     "about title title title nav"
     "about title title title nav"
-    "about p1 vs p2 nav" ;
+    "about p1 vs p2 nav" ; */
     text-align: center;
-
+    align-content: center;
 }
 
 #mid > #icons {
@@ -107,13 +118,13 @@ header {
 }
 
 body {
-  background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
+  /* background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
   background-position-y: center;
     background-position-x: center;
     background-attachment: fixed;
     background-size: contain;
-    background-repeat: no-repeat;
-    background-color: rgb(189, 186, 186, .4);
+    background-repeat: no-repeat; */
+    background-color: rgb(70, 70, 70);
     width: 100%;
 
     margin: 0;
@@ -121,19 +132,6 @@ body {
   justify-content: space-around;
   min-width: auto;
   max-height: 100%;
-}
-
-main {
-  background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
-  background-position-y: center;
-    background-position-x: center;
-    background-attachment: fixed;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: rgb(189, 186, 186, .4);
-    width: 100%;
-    margin: auto;
-    display: flex;
 }
 
 ul {
@@ -172,9 +170,17 @@ game-board {
     width: -moz-fit-content;
     width: fit-content;
     max-width: auto;
+    min-width: 507px;
     
-  border: solid 4px rgb(8, 8, 8, 0.3);
-  border-radius: 5px;
+    border: solid transparent 24px;
+    
+    border-image: linear-gradient(0.15turn, silver 30%, black 60%);
+    border-image-slice: 1;
+    /* border-radius: 10%; */
+    
+  box-shadow: 0px 0px 40px 20px rgb(200, 100, 100);
+  /* border: solid 24px rgb(8, 8, 8, 0.3);
+  border-radius: 10px; */
   grid-area: "board";
   display: flex;
   flex-direction: column;
@@ -182,16 +188,16 @@ game-board {
   align-self: center;
   cursor: crosshair;
   margin: auto;
+  margin-top: 20px;
 
 }
 
 .piece {
-  background-color: green;
+  
   width: 50px;
   height: 50px;
   border-radius: 50%;
   margin:auto;
-  border: 2px solid gray;
 }
 
 .piece:hover{
@@ -199,11 +205,15 @@ game-board {
 }
 
 .red {
-  background-color: red;
+  background-color: rgb(200, 50, 50);
+  border: 4px solid rgb(220, 60, 60);
+  box-shadow: 2px 2px 4px 2px rgb(160, 0, 0);
 }
 
 .blue {
-  background-color: blue;
+  background-color: rgb(50, 50, 200);
+  border: 4px solid rgb(60, 60, 220);
+  box-shadow: 2px 2px 4px 2px rgb(0, 0, 160);
 }
 
 .black {
@@ -211,7 +221,7 @@ game-board {
   display: flex;
   color: white;
   background-color: black;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   float: left;
   position: relative;
   height: 8vh;
@@ -224,7 +234,7 @@ game-board {
 .white {
   display: block;
   background-color: white;
-  border: solid 1px white;
+  /* border: solid 1px white; */
   float: left;
   position: relative;
   height: 8vh;

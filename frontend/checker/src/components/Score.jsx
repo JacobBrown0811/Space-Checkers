@@ -11,7 +11,7 @@ return (
               </div>
             
             
-              <score className="score">VS.</score>
+              
             
             
               <div className="player">
