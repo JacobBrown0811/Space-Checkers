@@ -3,7 +3,6 @@ package org.wcci.checkers.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.wcci.checkers.models.BoardModel;
 import org.wcci.checkers.models.TileModel;
 
 import org.wcci.checkers.repositories.TileRepository;
@@ -33,16 +32,32 @@ public class TileController {
         Optional<TileModel> tile = tileRepository.findById(id);
         return tile.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<TileModel> updateTile(@PathVariable long id, @RequestBody TileModel updatedTile) {
-        return tileRepository.findById(id)
-        .map(tile -> {
-            TileModel savedTile = tileRepository.save(tile);
-            return ResponseEntity.ok(savedTile);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+//     @PutMapping("/{id}")
+//     public ResponseEntity<TileModel> updateTile(@PathVariable long id, @RequestBody TileModel updatedTile) {
+//         return tileRepository.findById(id)
+//         .map(tile -> {
+//             TileModel savedTile = tileRepository.save(tile);
+//             return ResponseEntity.ok(savedTile);
+//         }).orElseGet(() -> ResponseEntity.notFound().build());
         
 
-}
+// }
+
+
+// updates the tiles if it becomes occupied or unoccupied
+@PutMapping("/{id}")
+    public ResponseEntity<TileModel> updateTile(@PathVariable long id, @RequestBody TileModel updatedTile) {
+        return tileRepository.findById(id)
+            .map(tile -> {
+                tile.setIsOccupied(updatedTile.getIsOccupied());
+                tile.setBoardColumn(updatedTile.getBoardColumn());
+                tile.setBoardRow(updatedTile.getBoardRow());
+                tile.setColor(updatedTile.getColor());
+                tile.setIsPlayable(updatedTile.getIsPlayable());
+                TileModel savedTile = tileRepository.save(tile);
+                return ResponseEntity.ok(savedTile);
+            }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
 
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class PieceModel {
@@ -14,10 +15,18 @@ public class PieceModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    
-     @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private BoardModel board;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
     private PlayerModel player;
+
+    @OneToOne
+    @JoinColumn(name = "tile_id")
+    private TileModel tile;
 
     private String color;
     private boolean king = false;
@@ -93,4 +102,33 @@ public class PieceModel {
 
     public void setPlayer(PlayerModel playerModel) {
     }
+
+    public BoardModel getBoard() {
+        return board;
+    }
+
+    public void setBoard(BoardModel board) {
+        this.board = board;
+    }
+
+    public PlayerModel getPlayer() {
+        return player;
+    }
+
+    public boolean isCanMove() {
+        return canMove;
+    }
+
+    public boolean isCanCapture() {
+        return canCapture;
+    }
+
+    public TileModel getTile() {
+        return tile;
+    }
+
+    public void setTile(TileModel tile) {
+        this.tile = tile;
+    }
+
 }

@@ -1,17 +1,48 @@
-* {
-  /* background-image: linear-gradient(rgb(192, 192, 192, 0.4), rgb(46, 175, 100, 0.4)); */
-  
-
-}
-
 h1 {
   background-image: linear-gradient(rgb(173, 173, 173), rgb(59, 156, 189));
   border: transparent;
   border-radius: 5px;
 }
 
-team {
+h2 {
+  color: red;
+  border: rgb(187, 176, 176, 0.3);
+  background-color: rgb(187, 176, 176, 0.9);
+}
+
+.team {
   background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
+}
+
+.team > img{
+  
+  height: 100px;
+  width: 100px;
+
+}
+
+.member {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#jacob {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+}
+
+#jacob > article {
+  background-color: rgb(187, 176, 176, 0.9);
+}
+
+
+.score {
+  color: red;
+  grid-area: auto;
 }
 
 nav {
@@ -33,19 +64,22 @@ button {
   cursor: crosshair;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: silver;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/*
+* header bar
+*/
 header {
-    position: absolute;
-    top: 0;
+    position: center;
     width: 100%;
-    height: 16vh;
     margin: 0;
     background: darkgray;
     border: solid transparent .4rem;
@@ -59,67 +93,73 @@ header {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
     grid-template-areas:
-    "about title nav"
-    "about title nav"
-    "about title nav" ;
+    "about title title title nav"
+    "about title title title nav"
+    "about p1 vs p2 nav" ;
     text-align: center;
 
 }
 
-body {
-  
-  /* background-image: url(assets/images/tardigrade1.jpg); */
-  background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
-  background-position-y: center;
-    background-position-x: center;
-    background-attachment: fixed;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: rgb(189, 186, 186, .4);
-    width: 100%;
-    /* height: 100%; */
-
-    margin: 0;
+#mid > #icons {
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
-main {
-  /* background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
+body {
+  background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
   background-position-y: center;
     background-position-x: center;
     background-attachment: fixed;
     background-size: contain;
     background-repeat: no-repeat;
     background-color: rgb(189, 186, 186, .4);
-    width: 100%; */
-    /* display: flex;
-    flex-direction: row-reverse; */
+    width: 100%;
+
+    margin: 0;
+  place-items: center;
+  justify-content: space-around;
+  min-width: auto;
+  max-height: 100%;
+}
+
+main {
+  background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
+  background-position-y: center;
+    background-position-x: center;
+    background-attachment: fixed;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: rgb(189, 186, 186, .4);
+    width: 100%;
+    margin: auto;
+    display: flex;
 }
 
 ul {
   list-style: none;
 }
 
-p1 {
+.p1 {
   border: solid 3px rgba(169, 169, 169, 0.4);
     background-image: url(assets/images/tardigrade1.jpg);
+    grid-area: "p1";
     /* background-position-y: center;
     background-position-x: center;
     background-attachment: fixed;
     background-size: cover;
     background-repeat: no-repeat;
     background-size: 100px; */
-    width: 200px;
+    width: 100px;
     height: 100px;
+    
 }
 
-p2 {
+.p2 {
   border: solid 3px rgba(169, 169, 169, 0.4);
     background: rgba(169, 169, 169, 0.7) transparent;
 }
+
 article {
   flex-direction: column;
 
@@ -127,31 +167,75 @@ article {
 
 game-board {
   
+  background-color: rgb(189, 186, 186, .4);
     background-color: rgb(189, 186, 186, .4);
-    width: auto;
+    width: -moz-fit-content;
+    width: fit-content;
+    max-width: auto;
+    
   border: solid 4px rgb(8, 8, 8, 0.3);
   border-radius: 5px;
-  margin-top: -20vh;
-  margin-left: 5vh;
+  grid-area: "board";
   display: flex;
   flex-direction: column;
-  position: fixed;
+  position: center;
+  align-self: center;
   cursor: crosshair;
+  margin: auto;
 
 }
 
-.square {
-  display: block;
+.piece {
+  background-color: green;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin:auto;
+  border: 2px solid gray;
+}
+
+.piece:hover{
+  box-shadow: 0px 0px 6px 6px silver;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.black {
+
+  display: flex;
+  color: white;
+  background-color: black;
   border: solid 1px black;
   float: left;
   position: relative;
   height: 8vh;
   width: 8vh;
+  align-content: space-around;
 }
+
+
+
+.white {
+  display: block;
+  background-color: white;
+  border: solid 1px white;
+  float: left;
+  position: relative;
+  height: 8vh;
+  width: 8vh;
+}
+
 .player > img {
   width: 100px;
   height: 100px;
 }
+
 
 .logo {
   height: 6em;
