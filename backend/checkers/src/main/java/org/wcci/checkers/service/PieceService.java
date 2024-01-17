@@ -40,6 +40,7 @@ public class PieceService {
                 oldTile.setIsOccupied(false);
                 piece.setBoardRow(newTile.getBoardRow());
                 piece.setBoardColumn(newTile.getBoardColumn());
+                piece.setTile(newTile);
                 newTile.setIsOccupied(true);
                 tileRepository.save(oldTile);
                 tileRepository.save(newTile);

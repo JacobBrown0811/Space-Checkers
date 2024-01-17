@@ -41,14 +41,36 @@ const Board = () => {
   const selectedPiece = document.getElementById("13");
   // selectedPiece.addEventListener("click", movePiece()); 
 
+    function showMoves(matchingPiece) {
+    const piece = matchingPiece.tile.id;
+    const moveL = piece - 9;
+    const moveR = piece - 7;
+
+    const leftElements = document.getElementsByClassName('black ' + moveL);
+    const rightElements = document.getElementsByClassName('black ' + moveR);
+  
+    Array.from(leftElements).forEach(element => {
+      element.style.backgroundColor = 'green';
+    });
+  
+    Array.from(rightElements).forEach(element => {
+      element.style.backgroundColor = 'green';
+    });
+
+    // const left = document.('.black.' + moveL);
+    // const right = document.querySelector('.black.' + moveR);
+    // left.style.backgroundColor = 'green';
+    // right.style.backgroundColor = 'green';
+  }
+
   async function movePiece(matchingPiece, tileId) {
-    const piece = 13;
-    const newTile = 35;
+    const piece = matchingPiece;
+    const newTile = tileId;
     const both = [piece, newTile]
     console.log(both)
     try {
-      // matchingPiece.id = tileId;
-      await axios.put(`/pieces/${piece}`, both)
+      
+
       console.log("did it work?")
     } catch {
       console.error("bad times")
@@ -75,9 +97,9 @@ const Board = () => {
               const matchingPiece = pieces.find((piece) => piece.tile.id === tile.id); 
 
               return (
-                <div key={tile.id} className={`${tile.color} ${tile.isOccupied ? 'occupied' : ''}`}>
+                <div key={tile.id} className={`${tile.color} ${tile.id} `}>
                   {tile.isOccupied && matchingPiece && (
-                    <div className={`piece ${matchingPiece.color} ${matchingPiece.id}`} onClick={()=> movePiece(matchingPiece.id, 35)}></div> // Populate the board with pieces
+                    <div className={`piece ${matchingPiece.color} ${matchingPiece.id}`} onClick={()=> showMoves(matchingPiece)}></div> // Populate the board with pieces
                   )}
                 </div>
               );
