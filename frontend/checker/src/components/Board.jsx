@@ -37,24 +37,42 @@ const Board = () => {
     fetchData();
   }, []); 
 
-    function showMoves(matchingPiece) {
+  function showMoves(matchingPiece) {
+    const allTiles = document.getElementsByClassName('black');
+  
+    const removeAllListeners = (element) => {
+      const clonedElement = element.cloneNode(true);
+      element.parentNode.replaceChild(clonedElement, element);
+    };
+  
+    Array.from(allTiles).forEach(element => {
+      element.style.boxShadow = '';
+      removeAllListeners(element);
+    });
+  
     const tileId = matchingPiece.tile.id;
     const moveL = tileId - 9;
     const moveR = tileId - 7;
-
+  
     const leftElements = document.getElementsByClassName('black ' + moveL);
     const rightElements = document.getElementsByClassName('black ' + moveR);
   
+    const moveHandler = (event) => movePiece(matchingPiece.id, event.target.dataset.move);
+  
     Array.from(leftElements).forEach(element => {
-      element.style.backgroundColor = 'green';
-      element.addEventListener('click', () => movePiece(matchingPiece.id, moveL))
+      element.style.boxShadow = 'inset 0px 0px 16px 8px silver';
+      element.addEventListener('click', moveHandler);
+      element.dataset.move = moveL;
     });
   
     Array.from(rightElements).forEach(element => {
-      element.style.backgroundColor = 'green';
-      element.addEventListener('click', () => movePiece(matchingPiece.id, moveR))
+      element.style.boxShadow = 'inset 0px 0px 16px 8px silver';
+      element.addEventListener('click', moveHandler);
+      element.dataset.move = moveR;
     });
   }
+  
+  
 
   async function movePiece(pieceId, tileId) {
     const piece = pieceId;
@@ -92,7 +110,7 @@ const Board = () => {
               return (
                 <div key={tile.id} className={`${tile.color} ${tile.id} `}>
                   {tile.isOccupied && matchingPiece && (
-                    <div className={`piece ${matchingPiece.color} ${matchingPiece.id}`} onClick={()=> showMoves(matchingPiece)}></div> // Populate the board with pieces
+                    <div className={`piece ${matchingPiece.color} ${matchingPiece.id}`} onClick={()=> showMoves(matchingPiece)}></div> // show possible moves for clicked piece
                   )}
                 </div>
               );
