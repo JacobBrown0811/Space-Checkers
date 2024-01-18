@@ -86,4 +86,9 @@ public void setPieces(List<PieceModel> pieces) {
     this.pieces = pieces;
 }
 
+public PieceModel getPieceAt(int startX, int startY) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getPieceAt'");
+}
+
 }

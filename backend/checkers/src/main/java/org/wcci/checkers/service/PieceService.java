@@ -1,16 +1,16 @@
 package org.wcci.checkers.service;
 
 import org.springframework.stereotype.Service;
-import org.wcci.checkers.models.BoardModel;
 import org.wcci.checkers.models.PieceModel;
 import org.wcci.checkers.models.TileModel;
 import org.wcci.checkers.repositories.PieceRepository;
 import org.wcci.checkers.repositories.TileRepository;
-
 import java.util.Optional;
 
 @Service
 public class PieceService {
+
+    private static final int BOARD_SIZE = 8; 
 
     private final PieceRepository pieceRepository;
     private final TileRepository tileRepository;
@@ -22,7 +22,7 @@ public class PieceService {
 
     /**
      * set piece location on move.
-     * 
+     *
      * @param pieceId
      * @param newRow
      * @param newColumn
@@ -55,77 +55,59 @@ public class PieceService {
         return false;
     }
 
-    /**
-     * Returns true if piece can move
-     * @param pieceId
-     * @return
-     */
     public boolean canMove(long pieceId) {
         Optional<PieceModel> pieceOpt = pieceRepository.findById(pieceId);
-        if (pieceOpt.isPresent()) {
-            try {
-                PieceModel piece = pieceOpt.get();
-                long tileId = piece.getTile().getId();
-                long trTile = tileId - 7;
-                long tlTile = tileId - 9;
-                Optional<TileModel> trOpt = tileRepository.findById(trTile);
-                Optional<TileModel> tlOpt = tileRepository.findById(tlTile);
-                if (piece.isKing()) {
-                    long brTile = tileId + 9;
-                    long blTile = tileId + 7;
-                    Optional<TileModel> brOpt = tileRepository.findById(brTile);
-                    Optional<TileModel> blOpt = tileRepository.findById(blTile);
-                    if (blOpt.get().getIsOccupied() && brOpt.get().getIsOccupied() && trOpt.get().getIsOccupied()
-                            && tlOpt.get().getIsOccupied()) {
-                        return false;
-                    }
-                } else {
+        if (!pieceOpt.isPresent()) {
+            return false;
+        }
 
-                    if (trOpt.get().getIsOccupied() && tlOpt.get().getIsOccupied()) {
-                        return false;
-                    }
+        PieceModel piece = pieceOpt.get();
+        int currentRow = piece.getBoardRow();
+        int currentColumn = piece.getBoardColumn();
+        boolean isKing = piece.isKing();
+        int[] moveRowOffsets = isKing ? new int[]{-1, 1} : new int[]{-1}; // Assuming regular pieces move upwards
+        int[] moveColOffsets = new int[]{-1, 1}; // Left and right
+
+        for (int rowOffset : moveRowOffsets) {
+            for (int colOffset : moveColOffsets) {
+                int newRow = currentRow + rowOffset;
+                int newCol = currentColumn + colOffset;
+                if (isValidTile(newRow, newCol) && !isOccupied(newRow, newCol)) {
+                    return true; // Found a valid move
                 }
-            } catch (Exception e) {
-                // TODO: handle exception
-                System.out.println("Problem with canMove: " + e.getMessage());
             }
         }
-        return true;
+
+        return false; // No valid moves found
     }
 
     public boolean canCapture(long pieceId) {
         Optional<PieceModel> pieceOpt = pieceRepository.findById(pieceId);
-        PieceModel piece = pieceOpt.get();
-        try {
-            if (!canMove(pieceId)){
-                long tileId = piece.getTile().getId();
-                long trTile = tileId - 14;
-                long tlTile = tileId - 18;
-                Optional<TileModel> trOpt = tileRepository.findById(trTile);
-                Optional<TileModel> tlOpt = tileRepository.findById(tlTile);
-                if (piece.isKing()) {
-                    long brTile = tileId + 18;
-                    long blTile = tileId + 14;
-                    Optional<TileModel> brOpt = tileRepository.findById(brTile);
-                    Optional<TileModel> blOpt = tileRepository.findById(blTile);
-                    if (blOpt.get().getIsOccupied() && brOpt.get().getIsOccupied() && trOpt.get().getIsOccupied()
-                            && tlOpt.get().getIsOccupied()) {
-                        return false;
-                    }
-                } else {
+        if (!pieceOpt.isPresent()) {
+            return false;
+        }
 
-                    if (trOpt.get().getIsOccupied() && tlOpt.get().getIsOccupied()) {
-                        return false;
-                    }
+        PieceModel piece = pieceOpt.get();
+        int currentRow = piece.getBoardRow();
+        int currentColumn = piece.getBoardColumn();
+        boolean isKing = piece.isKing();
+        int[] captureRowOffsets = isKing ? new int[]{-2, 2} : new int[]{-2}; // Assuming regular pieces move upwards
+        int[] captureColOffsets = new int[]{-2, 2}; // Left and right
+
+        for (int rowOffset : captureRowOffsets) {
+            for (int colOffset : captureColOffsets) {
+                int midRow = currentRow + rowOffset / 2;
+                int midCol = currentColumn + colOffset / 2;
+                int newRow = currentRow + rowOffset;
+                int newCol = currentColumn + colOffset;
+                if (isValidTile(newRow, newCol) && isOpponentPiece(midRow, midCol, piece.getColor()) && !isOccupied(newRow, newCol)) {
+                    return true; // Found a valid capture
                 }
             }
-        } catch (Exception e) {
-            // TODO: handle exception
-            System.out.println("Problem with canCapture: " + e.getMessage());
         }
-        return true;
-    }
 
+        return false; // No valid captures found
+    }
     /**
      * delete piece on capture
      * 
@@ -141,5 +123,31 @@ public class PieceService {
         }
         return false;
     }
+    private boolean isValidTile(int row, int col) {
+        if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
+            return false;
+        }
+        Optional<TileModel> tileOpt = tileRepository.findByBoardRowAndBoardColumn(row, col);
+        return tileOpt.map(TileModel::getIsPlayable).orElse(false);
+    }
 
+    private boolean isOccupied(int row, int col) {
+        Optional<TileModel> tileOpt = tileRepository.findByBoardRowAndBoardColumn(row, col);
+        return tileOpt.map(TileModel::getIsOccupied).orElse(false);
+    }
+
+    private boolean isOpponentPiece(int row, int col, String pieceColor) {
+        Optional<TileModel> tileOpt = tileRepository.findByBoardRowAndBoardColumn(row, col);
+        if (tileOpt.isPresent() && tileOpt.get().getIsOccupied()) {
+            // Assuming you have a method in your repository to find the piece by tile
+            Optional<PieceModel> pieceOpt = pieceRepository.findPieceByTile(tileOpt.get());
+            if (pieceOpt.isPresent()) {
+                PieceModel piece = pieceOpt.get();
+                return !piece.getColor().equalsIgnoreCase(pieceColor);
+            }
+        }
+        return false;
+    }
 }
+
+

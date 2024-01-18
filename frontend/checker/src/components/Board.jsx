@@ -47,12 +47,12 @@ const Board = () => {
   
     Array.from(leftElements).forEach(element => {
       element.style.backgroundColor = 'green';
-      element.addEventListener('click', movePiece(matchingPiece.id, moveL))
+      element.addEventListener('click', () => movePiece(matchingPiece.id, moveL))
     });
   
     Array.from(rightElements).forEach(element => {
       element.style.backgroundColor = 'green';
-      element.addEventListener('click', movePiece(matchingPiece.id, moveR))
+      element.addEventListener('click', () => movePiece(matchingPiece.id, moveR))
     });
   }
 
