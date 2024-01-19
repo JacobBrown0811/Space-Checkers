@@ -6,6 +6,8 @@ import Board from "./components/Board";
 import "./App.css";
 import Team from "./components/Team";
 import Header from "./components/Header";
+import Player1 from "./components/Player1";
+import Player2 from "./components/Player2";
 
 function App() {
   return (
@@ -24,7 +26,9 @@ function App() {
                     <Header/> 
                   </span>
                   <main>
+                    <Player1/>
                     <Board/> 
+                    <Player2/>
                   </main>
                   </>
                 }

@@ -11,21 +11,18 @@ h1 {
   -webkit-text-stroke: 2px silver;
 }
 
-h2 {
-  color: red;
-  border: rgb(187, 176, 176, 0.3);
-  background-color: rgb(187, 176, 176, 0.9);
-}
 
 .team {
   background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
   align-content: center;
-  
+  color: black;
+  border: rgb(187, 176, 176, 0.3);
+  background-color: rgb(187, 176, 176, 0.9);
 }
 
-.team > img{
+.member > img{
   
-  height: 100px;
+  height: auto;
   width: 100px;
 
 }
@@ -33,7 +30,7 @@ h2 {
 .member {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -138,28 +135,31 @@ ul {
   list-style: none;
 }
 
-.p1 {
+#alien {
   border: solid 3px rgba(169, 169, 169, 0.4);
-    background-image: url(assets/images/tardigrade1.jpg);
-    grid-area: "p1";
-    /* background-position-y: center;
-    background-position-x: center;
-    background-attachment: fixed;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-size: 100px; */
-    width: 100px;
-    height: 100px;
+  box-shadow: 0px 0px 40px 20px rgb(200, 100, 100);
+  margin-left: 10px;
+    margin-right: 10px;
     
 }
 
-.p2 {
+#guardian {
   border: solid 3px rgba(169, 169, 169, 0.4);
-    background: rgba(169, 169, 169, 0.7) transparent;
+    /* background: rgba(169, 169, 169, 0.7) transparent; */
+    box-shadow: 0px 0px 40px 20px rgb(100, 100, 200);
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 article {
   flex-direction: column;
+
+}
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 
 }
 
@@ -242,8 +242,8 @@ game-board {
 }
 
 .player > img {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
 }
 
 
