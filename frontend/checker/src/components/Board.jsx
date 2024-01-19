@@ -34,7 +34,21 @@ const Board = () => {
  fetchData();
 }, [turn]);
 
- const showMoves = (matchingPiece) => {
+ const resetSelection = () => {
+ setSelectedPiece(null);
+};
+
+ useEffect(() => {
+ document.addEventListener('click', resetSelection);
+
+ return () => {
+ document.removeEventListener('click', resetSelection);
+ };
+}, []);
+
+ const showMoves = (event, matchingPiece) => {
+ event.stopPropagation();
+ document.addEventListener('click', resetSelection);
  const allTiles = document.getElementsByClassName('black');
 
  const removeAllListeners = (element) => {
@@ -85,7 +99,7 @@ const Board = () => {
   });
  }
  }
- 
+
  const movePiece = useCallback(async (pieceId, tileId) => {
   const piece = pieceId;
   const newTile = tileId;
@@ -99,13 +113,12 @@ const Board = () => {
   } catch {
     console.error("bad times");
   }
- }, []);
+  }, []);
  
- useEffect(() => {
+  useEffect(() => {
   fetchTiles();
   fetchPieces();
- }, [turn]);
-  
+  }, [turn]);
  
   return (
   <>
@@ -122,13 +135,13 @@ const Board = () => {
        <div key={index}>
          {row.map((tile) => {
            const matchingPiece = pieces.find((piece) => piece.tile.id === tile.id); 
-
+ 
            return (
              <div 
                ref={el => tileRefs.current[tile.id] = el} 
                key={tile.id} 
                className={`${tile.color} ${tile.isOccupied} ${tile.id}`}
-               onClick={()=> showMoves(matchingPiece)}
+               onClick={(event) => showMoves(event, matchingPiece)}
              >
                {tile.isOccupied && matchingPiece && (
                 <div className={`piece ${matchingPiece.color} ${matchingPiece.id}`}></div>
@@ -140,7 +153,7 @@ const Board = () => {
      ))}
      </game-board>
   </>
- );
-};
-
-export default Board;
+  );
+ };
+ 
+ export default Board;
