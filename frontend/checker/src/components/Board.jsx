@@ -50,6 +50,7 @@ const Board = () => {
  event.stopPropagation();
  document.addEventListener('click', resetSelection);
  const allTiles = document.getElementsByClassName('black');
+//  const indicatedTiles = document.getElementsByClassName('black.false.'+ moveL) + document.getElementsByClassName('black.false.'+ moveR);
 
  const removeAllListeners = (element) => {
   const clonedElement = element.cloneNode(true);
@@ -58,7 +59,7 @@ const Board = () => {
 
  Array.from(allTiles).forEach(element => {
   element.style.boxShadow = '';
-  removeAllListeners(element);
+  // removeAllListeners(element);
  });
 
  const tileId = matchingPiece.tile.id;
@@ -70,6 +71,13 @@ const Board = () => {
   moveL = tileId + 9;
   moveR = tileId + 7;
  }
+
+ if (matchingPiece.isKing === true){
+  let moveUL = tileId - 9;
+  let moveUR = tileId - 7; 
+  let moveDR = tileId + 9; 
+  let moveDL = tileId + 7; 
+}
 
  const leftElements = document.getElementsByClassName('black false ' + moveL );
  const rightElements = document.getElementsByClassName('black false ' + moveR );
@@ -88,8 +96,18 @@ const Board = () => {
   element.dataset.move = moveR;
  });
 
+  let indicatedTiles = document.getElementsByClassName('black false '+moveL);
+  // console.log('black.false.'+ moveL);
+  const indicatedTiles2 = document.getElementsByClassName('black false '+moveR);
+  console.log(indicatedTiles.push(""+indicatedTiles2));
+  console.log("Indicated Tiles: ");
+  console.log(indicatedTiles);
+  console.log(indicatedTiles2);
+  console.log(allTiles);
+
  if (rightElements.length == 0 && leftElements.length == 0) {
-  Array.from(allTiles).forEach(element => {
+  // Array.from(allTiles).forEach(element => {
+  Array.from(indicatedTiles).forEach(element => {
     removeAllListeners(element);
     if (!element.dataset) {
       element.addEventListener('click', () => {
