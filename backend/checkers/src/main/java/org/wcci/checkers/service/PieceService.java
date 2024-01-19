@@ -41,6 +41,10 @@ public class PieceService {
                 piece.setBoardRow(newTile.getBoardRow());
                 piece.setBoardColumn(newTile.getBoardColumn());
                 piece.setTile(newTile);
+                // check for king
+                if ((piece.getColor().equals("blue") && piece.getBoardRow() == 0) || (piece.getColor().equals("red") && piece.getBoardRow() == 7)) {
+                    piece.setKing(true);
+                }
                 newTile.setIsOccupied(true);
                 tileRepository.save(oldTile);
                 tileRepository.save(newTile);

@@ -162,7 +162,7 @@ main {
   justify-content: space-evenly;
 
 }
-
+@media screen and (min-width: 763px){
 game-board {
   
   background-color: rgb(189, 186, 186, .4);
@@ -189,8 +189,108 @@ game-board {
   cursor: crosshair;
   margin: auto;
   margin-top: 20px;
-
 }
+}
+
+@media screen and (max-width: 762px){
+  game-board {
+    
+    background-color: rgb(189, 186, 186, .4);
+      background-color: rgb(189, 186, 186, .4);
+      width: -moz-fit-content;
+      width: fit-content;
+      max-width: auto;
+      min-width: 507px;
+      
+      border: solid transparent 24px;
+      
+      border-image: linear-gradient(0.15turn, silver 30%, black 60%);
+      border-image-slice: 1;
+      /* border-radius: 10%; */
+      
+    box-shadow: 0px 0px 40px 20px rgb(200, 100, 100);
+    /* border: solid 24px rgb(8, 8, 8, 0.3);
+    border-radius: 10px; */
+    grid-area: "board";
+    display: flex;
+    flex-direction: column;
+    position: center;
+    align-self: center;
+    cursor: crosshair;
+    margin: auto;
+    margin-top: 20px;
+  }
+
+  .piece {
+  
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin:auto;
+  }
+  
+  .red {
+    background-color: rgb(200, 50, 50);
+    border: 4px solid rgb(220, 60, 60);
+    box-shadow: 2px 2px 4px 2px rgb(160, 0, 0);
+  }
+  /* if king == true, piece shows image*/
+  .red.true {
+    background-color: rgb(200, 50, 50);
+    background-image: url(assets/images/tardigrade1.jpg);
+    background-size: 65px;
+    background-position: 69%;
+    background-repeat: no-repeat;
+    border: 4px solid rgb(220, 60, 60);
+    box-shadow: 2px 2px 4px 2px rgb(160, 0, 0);
+  }
+  
+  .blue {
+    background-color: rgb(50, 50, 200);
+    border: 4px solid rgb(60, 60, 220);
+    box-shadow: 2px 2px 4px 2px rgb(0, 0, 160);
+  }
+  /* if king == true, piece shows image*/
+  .blue.true {
+    background-color: rgb(50, 50, 200);
+    background-image: url(assets/images/DeltaGlobeOrbit.png);
+    background-size: 40px;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border: 4px solid rgb(60, 60, 220);
+    box-shadow: 2px 2px 4px 2px rgb(0, 0, 160);
+  }
+  
+  .black {
+  
+    display: flex;
+    color: white;
+    background-color: black;
+    /* border: solid 1px black; */
+    float: left;
+    position: relative;
+    height: 8vh;
+    width: 8vh;
+    align-content: space-around;
+  }
+  
+  
+  
+  .white {
+    display: block;
+    background-color: white;
+    /* border: solid 1px white; */
+    float: left;
+    position: relative;
+    height: 8vh;
+    width: 8vh;
+  }
+  
+  .player > img {
+    width: 150px;
+    height: 150px;
+  }
+  }
 
 .piece {
   
@@ -206,6 +306,12 @@ game-board {
 
 .red {
   background-color: rgb(200, 50, 50);
+  border: 4px solid rgb(220, 60, 60);
+  box-shadow: 2px 2px 4px 2px rgb(160, 0, 0);
+}
+/* if king == true, piece shows image*/
+.red.true {
+  background-color: rgb(200, 50, 50);
   background-image: url(assets/images/tardigrade1.jpg);
   background-size: 65px;
   background-position: 69%;
@@ -216,8 +322,16 @@ game-board {
 
 .blue {
   background-color: rgb(50, 50, 200);
-  background-image: url(assets/images/Seal_of_the_United_States_Space_Force.png);
-  background-size: contain;
+  border: 4px solid rgb(60, 60, 220);
+  box-shadow: 2px 2px 4px 2px rgb(0, 0, 160);
+}
+/* if king == true, piece shows image*/
+.blue.true {
+  background-color: rgb(50, 50, 200);
+  background-image: url(assets/images/DeltaGlobeOrbit.png);
+  background-size: 40px;
+  background-position: 50%;
+  background-repeat: no-repeat;
   border: 4px solid rgb(60, 60, 220);
   box-shadow: 2px 2px 4px 2px rgb(0, 0, 160);
 }
