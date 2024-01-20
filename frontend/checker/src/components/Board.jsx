@@ -50,7 +50,6 @@ const Board = () => {
     event.stopPropagation();
     document.addEventListener("click", resetSelection);
     const allTiles = document.getElementsByClassName("black");
-    //  const indicatedTiles = document.getElementsByClassName('black.false.'+ moveL) + document.getElementsByClassName('black.false.'+ moveR);
 
     const removeAllListeners = (element) => {
       const clonedElement = element.cloneNode(true);
@@ -139,7 +138,6 @@ const Board = () => {
     // original
     if (rightElements.length == 0 && leftElements.length == 0 && upRightElements.length == 0 && upLeftElements.length == 0 && downRightElements.length == 0 && downLeftElements.length == 0) {
       Array.from(allTiles).forEach(element => {
-      // Array.from(indicatedTiles).forEach((element) => {
         removeAllListeners(element);
         if (!element.dataset) {
           element.addEventListener("click", () => {
@@ -149,18 +147,6 @@ const Board = () => {
       });
     }
 
-    // if (rightElements.length == 0 && leftElements.length == 0) {
-    //   Array.from(allTiles).forEach(element => {
-    //   // Array.from(indicatedTiles).forEach((element) => {
-
-    //     removeAllListeners(element);
-    //     if (!element.dataset) {
-    //       element.addEventListener("click", () => {
-    //         setSelectedPiece(null);
-    //       });
-    //     }
-    //   });
-    // }
   };
 
   const movePiece = useCallback(async (pieceId, tileId) => {
@@ -200,7 +186,6 @@ const Board = () => {
               const matchingPiece = pieces.find(
                 (piece) => piece.tile.id === tile.id
               );
-
               return (
                 <div
                   ref={(el) => (tileRefs.current[tile.id] = el)}
@@ -212,7 +197,9 @@ const Board = () => {
                     <div
                       className={`piece ${matchingPiece.color} ${matchingPiece.king} ${matchingPiece.id}`}
                     ></div>
+                    
                   )}
+                  
                 </div>
               );
             })}
