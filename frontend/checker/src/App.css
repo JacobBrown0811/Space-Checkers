@@ -162,7 +162,7 @@ main {
   justify-content: space-evenly;
 
 }
-@media screen and (min-width: 763px){
+@media screen and (min-width: 991px){
 game-board {
   
   background-color: rgb(189, 186, 186, .4);
@@ -192,7 +192,7 @@ game-board {
 }
 }
 
-@media screen and (max-width: 762px){
+@media screen and (max-width: 990px){
   game-board {
     
     background-color: rgb(189, 186, 186, .4);
@@ -200,15 +200,15 @@ game-board {
       width: -moz-fit-content;
       width: fit-content;
       max-width: auto;
-      min-width: 507px;
+      min-width: 304px;
       
-      border: solid transparent 24px;
+      border: solid transparent 14px;
       
       border-image: linear-gradient(0.15turn, silver 30%, black 60%);
       border-image-slice: 1;
       /* border-radius: 10%; */
       
-    box-shadow: 0px 0px 40px 20px rgb(200, 100, 100);
+    box-shadow: 0px 0px 10px 10px rgb(200, 100, 100);
     /* border: solid 24px rgb(8, 8, 8, 0.3);
     border-radius: 10px; */
     grid-area: "board";
@@ -221,24 +221,24 @@ game-board {
     margin-top: 20px;
   }
 
-  .piece {
+  div.piece {
   
-    width: 50px;
-    height: 50px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     margin:auto;
   }
   
   .red {
     background-color: rgb(200, 50, 50);
-    border: 4px solid rgb(220, 60, 60);
+    border: 1px solid rgb(220, 60, 60);
     box-shadow: 2px 2px 4px 2px rgb(160, 0, 0);
   }
   /* if king == true, piece shows image*/
-  .red.true {
+  div.red.true {
     background-color: rgb(200, 50, 50);
     background-image: url(assets/images/tardigrade1.jpg);
-    background-size: 65px;
+    background-size: 18px;
     background-position: 69%;
     background-repeat: no-repeat;
     border: 4px solid rgb(220, 60, 60);
@@ -251,17 +251,17 @@ game-board {
     box-shadow: 2px 2px 4px 2px rgb(0, 0, 160);
   }
   /* if king == true, piece shows image*/
-  .blue.true {
+  div.blue.true {
     background-color: rgb(50, 50, 200);
     background-image: url(assets/images/DeltaGlobeOrbit.png);
-    background-size: 40px;
+    background-size: 18px;
     background-position: 50%;
     background-repeat: no-repeat;
     border: 4px solid rgb(60, 60, 220);
     box-shadow: 2px 2px 4px 2px rgb(0, 0, 160);
   }
   
-  .black {
+  div.black {
   
     display: flex;
     color: white;
@@ -269,26 +269,25 @@ game-board {
     /* border: solid 1px black; */
     float: left;
     position: relative;
-    height: 8vh;
-    width: 8vh;
+    height: 40px;
+    width: 38px;
     align-content: space-around;
   }
   
   
   
-  .white {
+  div.white {
     display: block;
     background-color: white;
     /* border: solid 1px white; */
     float: left;
     position: relative;
-    height: 8vh;
-    width: 8vh;
+    height: 40px;
+    width: 38px;
   }
   
-  .player > img {
-    width: 150px;
-    height: 150px;
+  .player {
+    visibility: hidden;
   }
   }
 
