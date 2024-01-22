@@ -39,13 +39,22 @@ const Board = () => {
     setSelectedPiece(null);
   };
 
-  useEffect(() => {
-    document.addEventListener("click", resetSelection);
-
-    return () => {
-      document.removeEventListener("click", resetSelection);
+  
+  function useDetectClickOutside(ref) {
+    const handleClickOutside = (event) => {
+       if (ref.current && !ref.current.contains(event.target)) {
+         resetSelection();
+       }
     };
-  }, []);
+   
+    useEffect(() => {
+       document.addEventListener("click", handleClickOutside);
+       return () => {
+         document.removeEventListener("click", handleClickOutside);
+       };
+    });
+   }
+  const boardRef = useRef(null);
 
   const switchPlayer = () => {
     setCurrentPlayer(currentPlayer === 'blue' ? 'red' : 'blue');
@@ -328,6 +337,7 @@ const showMoves = (event, matchingPiece) => {
       }
   }, [pieces, tiles, setSelectedPiece, setTurn, switchPlayer]);
 
+  useDetectClickOutside(boardRef);
 
   useEffect(() => {
     fetchTiles();
@@ -336,7 +346,7 @@ const showMoves = (event, matchingPiece) => {
 
   return (
     <>
-      <game-board key={turn}>
+      <game-board ref={boardRef} key={turn}>
         {Object.values(
           tiles.reduce((rows, tile) => {
             if (!rows[tile.boardRow]) {
