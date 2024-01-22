@@ -21,7 +21,7 @@ const Header = () => {
           </div>
         </div>
         <nav>
-          <button title="Rules of Checkers">Space Rules</button>
+        <a href="./rules"><button title="Rules of Checkers">Space Rules</button></a>
           <button title="Start new Game">New Game</button>
           <a href="./team"><button title="About Team">About</button></a>
         </nav>
