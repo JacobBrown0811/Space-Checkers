@@ -3,9 +3,12 @@ package org.wcci.checkers.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wcci.checkers.models.BoardModel;
+import org.wcci.checkers.models.PieceModel;
 import org.wcci.checkers.repositories.BoardRepository;
+import org.wcci.checkers.repositories.PieceRepository;
 
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/boards")
@@ -13,8 +16,11 @@ public class BoardController {
 
     private final BoardRepository boardRepository;
 
-    public BoardController(BoardRepository boardRepository) {
+    private final PieceRepository pieceRepository;
+
+    public BoardController(BoardRepository boardRepository, PieceRepository pieceRepository) {
         this.boardRepository = boardRepository;
+        this.pieceRepository = pieceRepository;
     }
 
     /**
@@ -26,6 +32,39 @@ public class BoardController {
     @PostMapping
     public BoardModel createBoard(@RequestBody BoardModel board) {
         return boardRepository.save(board);
+    }
+    
+    @GetMapping("/wipe/{id}")
+    public ResponseEntity<BoardModel> resetBoard(@PathVariable long id) {
+        Optional<BoardModel> board = boardRepository.findById(id);
+        if (board.isPresent()) {
+            // Delete the existing board
+            boardRepository.deleteById(id);
+            
+            // Create a new board with the same ID
+            BoardModel newBoard = new BoardModel();
+            newBoard.setId(id);
+            newBoard.drawTiles();
+            newBoard.drawPieces();
+            
+            // Save the new board
+            BoardModel savedBoard = boardRepository.save(newBoard);
+            
+            return ResponseEntity.ok(savedBoard);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{id}/clear")
+    public ResponseEntity<?> clearPieces(@PathVariable long id) {
+        Optional<BoardModel> board = boardRepository.findById(id);
+        if (board.isPresent()) {
+            // Explicitly load tiles if they are lazily loaded
+            return ResponseEntity.ok(board.get().getPieces());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
