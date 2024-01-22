@@ -29,26 +29,27 @@ public class PieceController {
         return ResponseEntity.ok(savedPiece);
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<?> putPiece(@PathVariable long id, @RequestBody Map<String, Object> moveDetails) {
-        try {
-            long newTileId = ((Number) moveDetails.get("newTileId")).longValue();
-            Long capturedPieceId = null;
-            if (moveDetails.containsKey("capturedPieceId")) {
-                capturedPieceId = ((Number) moveDetails.get("capturedPieceId")).longValue();
-            }
-    
-            boolean moveSuccessful = pieceService.movePiece(id, newTileId, capturedPieceId);
-    
-            if (moveSuccessful) {
-                return ResponseEntity.ok().body("Move or capture successful.");
-            } else {
-                return ResponseEntity.badRequest().body("Failed to move or capture the piece.");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+public ResponseEntity<?> putPiece(@PathVariable long id, @RequestBody Map<String, Object> moveDetails) {
+    try {
+        long newTileId = ((Number) moveDetails.get("newTileId")).longValue();
+        Optional<Long> capturedPieceId = moveDetails.containsKey("capturedPieceId")
+                                    ? Optional.of(((Number) moveDetails.get("capturedPieceId")).longValue())
+                                    : Optional.empty();
+
+        boolean moveSuccessful = pieceService.movePiece(id, newTileId, capturedPieceId);
+
+        if (moveSuccessful) {
+            return ResponseEntity.ok().body("Move or capture successful.");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to move or capture the piece.");
         }
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
+}
+
 
     @GetMapping("/{id}")
     public ResponseEntity<PieceModel> getPiece(@PathVariable long id) {

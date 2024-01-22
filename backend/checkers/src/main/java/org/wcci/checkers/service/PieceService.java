@@ -28,43 +28,44 @@ public class PieceService {
      * @param newColumn
      * @return
      */
-    public boolean movePiece(long pieceId, long newTileId, Long capturedPieceId) {
+    
+     public boolean movePiece(long pieceId, long newTileId, Optional<Long> capturedPieceId) {
         Optional<PieceModel> pieceOpt = pieceRepository.findById(pieceId);
         Optional<TileModel> newTileOpt = tileRepository.findById(newTileId);
-        
+
         if (!pieceOpt.isPresent() || !newTileOpt.isPresent()) {
             return false;
         }
-        
+
         PieceModel piece = pieceOpt.get();
         TileModel newTile = newTileOpt.get();
         TileModel oldTile = piece.getTile();
-        
+
         // Calculate midTile for capture
         int midRow = (oldTile.getBoardRow() + newTile.getBoardRow()) / 2;
         int midColumn = (oldTile.getBoardColumn() + newTile.getBoardColumn()) / 2;
         Optional<TileModel> midTileOpt = tileRepository.findByBoardRowAndBoardColumn(midRow, midColumn);
-        
-        if (midTileOpt.isPresent() && capturedPieceId != null) {
+
+        if (midTileOpt.isPresent() && capturedPieceId.isPresent()) {
             // Capture move
-            capturePiece(capturedPieceId); // Assuming this method captures the piece
+            capturePiece(capturedPieceId.get()); // Assuming this method captures the piece
             midTileOpt.get().setIsOccupied(false);
         }
-        
+
         // Regular move
         oldTile.setIsOccupied(false);
         newTile.setIsOccupied(true);
-        
+
         // Update piece position
         piece.setBoardRow(newTile.getBoardRow());
         piece.setBoardColumn(newTile.getBoardColumn());
         piece.setTile(newTile);
-        
+
         // Check for king
         if ((piece.getColor().equals("blue") && piece.getBoardRow() == 0) || (piece.getColor().equals("red") && piece.getBoardRow() == BOARD_SIZE - 1)) {
             piece.setKing(true);
         }
-        
+        capturedPieceId.ifPresent(this::capturePiece);
         // Save changes
         tileRepository.save(oldTile);
         tileRepository.save(newTile);

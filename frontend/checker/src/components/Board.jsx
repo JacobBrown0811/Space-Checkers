@@ -56,7 +56,7 @@ const showMoves = (event, matchingPiece) => {
   event.stopPropagation();  // This should be inside the function
 
   if (!matchingPiece || matchingPiece.color !== currentPlayer) {
-      console.log("Not your turn or no piece selected!");
+      console.log("Not your turn");
       return;
   }
 
@@ -260,47 +260,60 @@ const showMoves = (event, matchingPiece) => {
 
   };
 
-  const movePiece = useCallback(async (pieceId, tileId) => {
+  const movePiece = useCallback(async (pieceId, targetTileId) => {
     const payload = {
-        newTileId: Number(tileId), // Convert tileId to a number
+        newTileId: Number(targetTileId),
     };
     console.log("Sending payload:", payload);
 
     try {
         const response = await axios.put(`/pieces/${pieceId}`, payload);
-        console.log("Move successful", response.data); // Log the response data
+        console.log("Move successful", response.data);
         setSelectedPiece(null);
         setTurn((prevTurn) => prevTurn + 1);
-        switchPlayer(); // Switch the player after the move
+        switchPlayer();
     } catch (error) {
         console.error("Error occurred during move:", error.response ? error.response.data : error.message);
     }
-}, [setSelectedPiece, setTurn, switchPlayer]); // Include switchPlayer in the dependency array
+}, [setSelectedPiece, setTurn, switchPlayer]);
 
-const capturePiece = useCallback(async (pieceId, tileId) => {
-    const piece = pieceId;
-    const newTile = tileId;
-    const both = [piece, newTile];
-
-    let capped = 0;
-    
-    if (piece - newTile === 18) capped = piece - 9;
-    if (piece - newTile === 14) capped = piece - 7;
-    if (piece - newTile === -14) capped = piece + 7;
-    if (piece - newTile === -18) capped = piece + 9;
-    
-
-    try {
-      await axios.put(`/pieces/${pieceId}`, both);
-      await axios.delete(`/pieces/${capped}`)
-      console.log("capped dat sucker");
-      setSelectedPiece(null);
-      setTurn((prevTurn) => prevTurn + 1);
-    } catch {
-      console.error("bad times");
-    }
-  }, []);
-
+    const capturePiece = useCallback(async (pieceId, targetTileId) => {
+      const piece = pieces.find(p => p.id === pieceId);
+      const targetTile = tiles.find(t => t.id === Number(targetTileId));
+      if (!piece || !targetTile) {
+          console.log("Invalid piece or target tile");
+          return;
+      }
+      
+      let capturedPieceTileId = 0;
+      if (piece.tile.id - targetTile.id === 18) capturedPieceTileId = piece.tile.id - 9;
+      if (piece.tile.id - targetTile.id === 14) capturedPieceTileId = piece.tile.id - 7;
+      if (piece.tile.id - targetTile.id === -14) capturedPieceTileId = piece.tile.id + 7;
+      if (piece.tile.id - targetTile.id === -18) capturedPieceTileId = piece.tile.id + 9;
+  
+      const capturedPiece = pieces.find(p => p.tile.id === capturedPieceTileId);
+      const capturedPieceId = capturedPiece ? capturedPiece.id : null;
+  
+      if (!capturedPieceId) {
+          console.log(`No piece to capture at tile ${capturedPieceTileId}`);
+          return;
+      }
+  
+      const payload = {
+          newTileId: Number(targetTileId),
+          capturedPieceId: capturedPieceId
+      };
+  
+      try {
+          await axios.put(`/pieces/${pieceId}`, payload);
+          console.log("Capture successful");
+          setSelectedPiece(null);
+          setTurn((prevTurn) => prevTurn + 1);
+          switchPlayer();
+      } catch (error) {
+          console.error("Error occurred during capture: ", error.response ? error.response.data : error.message);
+      }
+  }, [pieces, tiles, setSelectedPiece, setTurn, switchPlayer]);
 
 
   useEffect(() => {
