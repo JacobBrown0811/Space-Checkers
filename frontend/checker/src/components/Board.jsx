@@ -7,6 +7,7 @@ const Board = () => {
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [turn, setTurn] = useState(1);
   const tileRefs = useRef([]);
+  const [currentPlayer, setCurrentPlayer] = useState('blue');
 
   const fetchTiles = async () => {
     try {
@@ -46,15 +47,27 @@ const Board = () => {
     };
   }, []);
 
-  const showMoves = (event, matchingPiece) => {
-    event.stopPropagation();
-    document.addEventListener("click", resetSelection);
-    const allTiles = document.getElementsByClassName("black");
+  const switchPlayer = () => {
+    setCurrentPlayer(currentPlayer === 'blue' ? 'red' : 'blue');
+};
 
-    const removeAllListeners = (element) => {
+  
+const showMoves = (event, matchingPiece) => {
+  event.stopPropagation();  // This should be inside the function
+
+  if (!matchingPiece || matchingPiece.color !== currentPlayer) {
+      console.log("Not your turn or no piece selected!");
+      return;
+  }
+
+  document.addEventListener("click", resetSelection);
+  const allTiles = document.getElementsByClassName("black");
+
+  const removeAllListeners = (element) => {
       const clonedElement = element.cloneNode(true);
       element.parentNode.replaceChild(clonedElement, element);
-    };
+  };
+
 
     Array.from(allTiles).forEach((element) => {
       element.style.boxShadow = "";
@@ -248,22 +261,23 @@ const Board = () => {
   };
 
   const movePiece = useCallback(async (pieceId, tileId) => {
-    const piece = pieceId;
-    const newTile = tileId;
-    const both = [piece, newTile];
-    console.log(both);
+    const payload = {
+        newTileId: Number(tileId), // Convert tileId to a number
+    };
+    console.log("Sending payload:", payload);
+
     try {
-      await axios.put(`/pieces/${piece}`, both);
-      console.log("did it work?");
-      setSelectedPiece(null);
-      setTurn((prevTurn) => prevTurn + 1);
-    } catch {
-      console.error("bad times");
+        const response = await axios.put(`/pieces/${pieceId}`, payload);
+        console.log("Move successful", response.data); // Log the response data
+        setSelectedPiece(null);
+        setTurn((prevTurn) => prevTurn + 1);
+        switchPlayer(); // Switch the player after the move
+    } catch (error) {
+        console.error("Error occurred during move:", error.response ? error.response.data : error.message);
     }
-  }, []);
+}, [setSelectedPiece, setTurn, switchPlayer]); // Include switchPlayer in the dependency array
 
-
-  const capturePiece = useCallback(async (pieceId, tileId) => {
+const capturePiece = useCallback(async (pieceId, tileId) => {
     const piece = pieceId;
     const newTile = tileId;
     const both = [piece, newTile];
@@ -277,7 +291,7 @@ const Board = () => {
     
 
     try {
-      await axios.put(`/pieces/${piece}`, both);
+      await axios.put(`/pieces/${pieceId}`, both);
       await axios.delete(`/pieces/${capped}`)
       console.log("capped dat sucker");
       setSelectedPiece(null);
