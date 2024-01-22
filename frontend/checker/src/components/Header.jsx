@@ -21,9 +21,9 @@ const Header = () => {
           </div>
         </div>
         <nav>
-          <button title="Set Player Name">Set Name</button>
+          <button title="Rules of Checkers">Space Rules</button>
           <button title="Start new Game">New Game</button>
-          <button title="About Game">About</button>
+          <a href="./team"><button title="About Team">About</button></a>
         </nav>
       </header>
     </div>
