@@ -8,6 +8,7 @@ import Team from "./components/Team";
 import Header from "./components/Header";
 import Player1 from "./components/Player1";
 import Player2 from "./components/Player2";
+import Rules from "./components/Rules";
 
 function App() {
   return (
@@ -41,6 +42,17 @@ function App() {
                     <Header/> 
                   </span>
                     <Team/> 
+                  </>
+                }
+              />
+                            <Route
+                path="/rules"
+                element={
+                  <>
+                  <span>
+                    <Header/> 
+                  </span>
+                    <Rules/> 
                   </>
                 }
               />
