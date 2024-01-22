@@ -1,7 +1,12 @@
+
 * {
   font-family: fantasy;
   font-weight: 1;
 }
+a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:active { text-decoration: none; }
 
 h1 {
   background-image: linear-gradient(rgb(59, 156, 189), rgb(173, 173, 173));
@@ -15,8 +20,28 @@ h1 {
   background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
   align-content: center;
   color: black;
-  border: rgb(187, 176, 176, 0.3);
   background-color: rgb(187, 176, 176, 0.9);
+  width: 600px;
+  margin:auto;
+  margin-top: 20px;
+  text-decoration: none;
+
+
+}
+.member{
+margin: auto;
+display: flex;
+padding: 8px;
+justify-content: center;
+align-items: center;
+border: 8px solid silver;
+
+
+}
+.bio{
+text-align: justify;
+padding: 12px;
+
 }
 
 .score {
@@ -201,9 +226,9 @@ game-board {
     margin: auto;
     margin-top: 20px;
 
-    animation: spin 18s infinite linear;
+    /* animation: spin 18s infinite linear;
 
-    transform: rotate(120deg);
+    transform: rotate(120deg); */
 
     
 
