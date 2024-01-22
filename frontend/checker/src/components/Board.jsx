@@ -146,6 +146,104 @@ const Board = () => {
         }
       });
     }
+    showCaptures(matchingPiece)
+  };
+
+  const showCaptures = (matchingPiece) => {
+
+    document.addEventListener("click", resetSelection);
+    const allTiles = document.getElementsByClassName("black");
+
+    const removeAllListeners = (element) => {
+      const clonedElement = element.cloneNode(true);
+      element.parentNode.replaceChild(clonedElement, element);
+    };
+
+    const tileId = matchingPiece.tile.id;
+
+    let capL = tileId - 18;
+    let capR = tileId - 14;
+
+    if (matchingPiece.color === "red") {
+      capL = tileId + 18;
+      capR = tileId + 14;
+    }
+
+    const leftElements = document.getElementsByClassName(
+      "black false " + capL
+    );
+    const rightElements = document.getElementsByClassName(
+      "black false " + capR
+    );
+
+      let capUL = tileId - 18;
+      let capUR = tileId - 14;
+      let capDR = tileId + 18;
+      let capDL = tileId + 14;
+    
+
+    const upRightElements = document.getElementsByClassName(
+      "black false " + capUR
+    );
+    const upLeftElements = document.getElementsByClassName(
+      "black false " + capUL
+    );
+    const downRightElements = document.getElementsByClassName(
+      "black false " + capDR
+    );
+    const downLeftElements = document.getElementsByClassName(
+      "black false " + capDL
+    );
+
+
+    const captureHandler = (event) =>
+      capturePiece(matchingPiece.id, event.target.dataset.move);
+
+    if (matchingPiece.king){
+      Array.from(upRightElements).forEach((element) => {
+        element.style.boxShadow = "inset 0px 0px 16px 8px green";
+        element.addEventListener("click", captureHandler);
+        element.dataset.move = capUR;
+      });
+      Array.from(upLeftElements).forEach((element) => {
+        element.style.boxShadow = "inset 0px 0px 16px 8px green";
+        element.addEventListener("click", captureHandler);
+        element.dataset.move = capUL;
+      });
+      Array.from(downRightElements).forEach((element) => {
+        element.style.boxShadow = "inset 0px 0px 16px 8px green";
+        element.addEventListener("click", captureHandler);
+        element.dataset.move = capDR;
+      });
+      Array.from(downLeftElements).forEach((element) => {
+        element.style.boxShadow = "inset 0px 0px 16px 8px green";
+        element.addEventListener("click", captureHandler);
+        element.dataset.move = capDL;
+      });
+    } else {
+    Array.from(leftElements).forEach((element) => {
+      element.style.boxShadow = "inset 0px 0px 16px 8px green";
+      element.addEventListener("click", captureHandler);
+      element.dataset.move = capL;
+    });
+
+    Array.from(rightElements).forEach((element) => {
+      element.style.boxShadow = "inset 0px 0px 16px 8px green";
+      element.addEventListener("click", captureHandler);
+      element.dataset.move = capR;
+    });
+  }
+    // original
+    if (rightElements.length == 0 && leftElements.length == 0 && upRightElements.length == 0 && upLeftElements.length == 0 && downRightElements.length == 0 && downLeftElements.length == 0) {
+      Array.from(allTiles).forEach(element => {
+        removeAllListeners(element);
+        if (!element.dataset) {
+          element.addEventListener("click", () => {
+            setSelectedPiece(null);
+          });
+        }
+      });
+    }
 
   };
 
@@ -163,6 +261,33 @@ const Board = () => {
       console.error("bad times");
     }
   }, []);
+
+
+  const capturePiece = useCallback(async (pieceId, tileId) => {
+    const piece = pieceId;
+    const newTile = tileId;
+    const both = [piece, newTile];
+
+    let capped = 0;
+    
+    if (piece - newTile === 18) capped = piece - 9;
+    if (piece - newTile === 14) capped = piece - 7;
+    if (piece - newTile === -14) capped = piece + 7;
+    if (piece - newTile === -18) capped = piece + 9;
+    
+
+    try {
+      await axios.put(`/pieces/${piece}`, both);
+      await axios.delete(`/pieces/${capped}`)
+      console.log("capped dat sucker");
+      setSelectedPiece(null);
+      setTurn((prevTurn) => prevTurn + 1);
+    } catch {
+      console.error("bad times");
+    }
+  }, []);
+
+
 
   useEffect(() => {
     fetchTiles();
