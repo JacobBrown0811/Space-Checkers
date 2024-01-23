@@ -58,6 +58,15 @@ const Board = () => {
 
   const switchPlayer = () => {
     setCurrentPlayer(currentPlayer === 'blue' ? 'red' : 'blue');
+    const board = document.getElementById("gameboard");
+    console.log("switch player called: " + currentPlayer);
+    if (currentPlayer === 'blue'){
+        board.style.boxShadow = "0px 0px 40px 10px rgb(200, 100, 100)";
+        
+    }
+    if (currentPlayer === 'red'){
+        board.style.boxShadow = "0px 0px 40px 10px rgb(100, 100, 200)";
+    }
 };
 
   
@@ -345,7 +354,7 @@ const showMoves = (event, matchingPiece) => {
   }, [turn]);
 
   return (
-    <>
+    <div id="gameboard">
       <game-board ref={boardRef} key={turn}>
         {Object.values(
           tiles.reduce((rows, tile) => {
@@ -381,7 +390,7 @@ const showMoves = (event, matchingPiece) => {
           </div>
         ))}
       </game-board>
-    </>
+    </div>
   );
 };
 
