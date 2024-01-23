@@ -39,16 +39,34 @@ const Board = () => {
     setSelectedPiece(null);
   };
 
-  useEffect(() => {
-    document.addEventListener("click", resetSelection);
-
-    return () => {
-      document.removeEventListener("click", resetSelection);
+  
+  function useDetectClickOutside(ref) {
+    const handleClickOutside = (event) => {
+       if (ref.current && !ref.current.contains(event.target)) {
+         resetSelection();
+       }
     };
-  }, []);
+   
+    useEffect(() => {
+       document.addEventListener("click", handleClickOutside);
+       return () => {
+         document.removeEventListener("click", handleClickOutside);
+       };
+    });
+   }
+  const boardRef = useRef(null);
 
   const switchPlayer = () => {
     setCurrentPlayer(currentPlayer === 'blue' ? 'red' : 'blue');
+    const board = document.getElementById("gameboard");
+    console.log("switch player called: " + currentPlayer);
+    if (currentPlayer === 'blue'){
+        board.style.boxShadow = "0px 0px 40px 10px rgb(200, 100, 100)";
+        
+    }
+    if (currentPlayer === 'red'){
+        board.style.boxShadow = "0px 0px 40px 10px rgb(100, 100, 200)";
+    }
 };
 
   
@@ -84,10 +102,10 @@ const showMoves = (event, matchingPiece) => {
       moveR = tileId + 7;
     }
 
-    const leftElements = document.getElementsByClassName(
+    let leftElements = document.getElementsByClassName(
       "black false " + moveL
     );
-    const rightElements = document.getElementsByClassName(
+    let rightElements = document.getElementsByClassName(
       "black false " + moveR
     );
 
@@ -97,16 +115,16 @@ const showMoves = (event, matchingPiece) => {
       let moveDL = tileId + 7;
     
 
-    const upRightElements = document.getElementsByClassName(
+    let upRightElements = document.getElementsByClassName(
       "black false " + moveUR
     );
-    const upLeftElements = document.getElementsByClassName(
+    let upLeftElements = document.getElementsByClassName(
       "black false " + moveUL
     );
-    const downRightElements = document.getElementsByClassName(
+    let downRightElements = document.getElementsByClassName(
       "black false " + moveDR
     );
-    const downLeftElements = document.getElementsByClassName(
+    let downLeftElements = document.getElementsByClassName(
       "black false " + moveDL
     );
 
@@ -149,30 +167,19 @@ const showMoves = (event, matchingPiece) => {
     });
   }
     // original
-    if (rightElements.length == 0 && leftElements.length == 0 && upRightElements.length == 0 && upLeftElements.length == 0 && downRightElements.length == 0 && downLeftElements.length == 0) {
-      Array.from(allTiles).forEach(element => {
-        removeAllListeners(element);
-        if (!element.dataset) {
-          element.addEventListener("click", () => {
-            setSelectedPiece(null);
-          });
-        }
-      });
-    }
-    showCaptures(matchingPiece)
-  };
-
-  const showCaptures = (matchingPiece) => {
-
-    document.addEventListener("click", resetSelection);
-    const allTiles = document.getElementsByClassName("black");
-
-    const removeAllListeners = (element) => {
-      const clonedElement = element.cloneNode(true);
-      element.parentNode.replaceChild(clonedElement, element);
-    };
-
-    const tileId = matchingPiece.tile.id;
+    // if (rightElements.length == 0 && leftElements.length == 0 && upRightElements.length == 0 && upLeftElements.length == 0 && downRightElements.length == 0 && downLeftElements.length == 0) {
+    //   Array.from(allTiles).forEach(element => {
+    //     removeAllListeners(element);
+    //     if (!element.dataset) {
+    //       element.addEventListener("click", () => {
+    //         setSelectedPiece(null);
+    //       });
+    //     }
+    //   });
+    // }
+    
+    const captureHandler = (event) =>
+    capturePiece(matchingPiece.id, event.target.dataset.move);
 
     let capL = tileId - 18;
     let capR = tileId - 14;
@@ -182,10 +189,10 @@ const showMoves = (event, matchingPiece) => {
       capR = tileId + 14;
     }
 
-    const leftElements = document.getElementsByClassName(
+    const leftCaptures = document.getElementsByClassName(
       "black false " + capL
     );
-    const rightElements = document.getElementsByClassName(
+    const rightCaptures = document.getElementsByClassName(
       "black false " + capR
     );
 
@@ -195,70 +202,94 @@ const showMoves = (event, matchingPiece) => {
       let capDL = tileId + 14;
     
 
-    const upRightElements = document.getElementsByClassName(
+    const upRightCaptures = document.getElementsByClassName(
       "black false " + capUR
     );
-    const upLeftElements = document.getElementsByClassName(
+    const upLeftCaptures = document.getElementsByClassName(
       "black false " + capUL
     );
-    const downRightElements = document.getElementsByClassName(
+    const downRightCaptures = document.getElementsByClassName(
       "black false " + capDR
     );
-    const downLeftElements = document.getElementsByClassName(
+    const downLeftCaptures = document.getElementsByClassName(
       "black false " + capDL
     );
 
+  if (matchingPiece.king){
 
-    const captureHandler = (event) =>
-      capturePiece(matchingPiece.id, event.target.dataset.move);
+    if (upRightElements.length == 0 && upRightCaptures.length == 1){
 
-    if (matchingPiece.king){
-      Array.from(upRightElements).forEach((element) => {
-        element.style.boxShadow = "inset 0px 0px 16px 8px green";
-        element.addEventListener("click", captureHandler);
-        element.dataset.move = capUR;
-      });
-      Array.from(upLeftElements).forEach((element) => {
-        element.style.boxShadow = "inset 0px 0px 16px 8px green";
-        element.addEventListener("click", captureHandler);
-        element.dataset.move = capUL;
-      });
-      Array.from(downRightElements).forEach((element) => {
-        element.style.boxShadow = "inset 0px 0px 16px 8px green";
-        element.addEventListener("click", captureHandler);
-        element.dataset.move = capDR;
-      });
-      Array.from(downLeftElements).forEach((element) => {
-        element.style.boxShadow = "inset 0px 0px 16px 8px green";
-        element.addEventListener("click", captureHandler);
-        element.dataset.move = capDL;
-      });
-    } else {
-    Array.from(leftElements).forEach((element) => {
+    Array.from(upRightCaptures).forEach((element) => {
       element.style.boxShadow = "inset 0px 0px 16px 8px green";
       element.addEventListener("click", captureHandler);
-      element.dataset.move = capL;
-    });
-
-    Array.from(rightElements).forEach((element) => {
-      element.style.boxShadow = "inset 0px 0px 16px 8px green";
-      element.addEventListener("click", captureHandler);
-      element.dataset.move = capR;
-    });
-  }
-    // original
-    if (rightElements.length == 0 && leftElements.length == 0 && upRightElements.length == 0 && upLeftElements.length == 0 && downRightElements.length == 0 && downLeftElements.length == 0) {
-      Array.from(allTiles).forEach(element => {
-        removeAllListeners(element);
-        if (!element.dataset) {
-          element.addEventListener("click", () => {
-            setSelectedPiece(null);
-          });
-        }
-      });
+      element.dataset.move = capUR;
+    })
     }
 
+    if (upLeftElements.length == 0 && upLeftCaptures.length == 1){
+
+    Array.from(upLeftCaptures).forEach((element) => {
+      element.style.boxShadow = "inset 0px 0px 16px 8px green";
+      element.addEventListener("click", captureHandler);
+      element.dataset.move = capUL;
+    })
+    }
+
+    if (downRightElements.length == 0 && downRightCaptures.length == 1){
+
+    Array.from(downRightCaptures).forEach((element) => {
+      element.style.boxShadow = "inset 0px 0px 16px 8px green";
+      element.addEventListener("click", captureHandler);
+      element.dataset.move = capDR;
+    })
+    }
+
+    if (downLeftElements.length == 0 && downLeftCaptures.length == 1){
+
+    Array.from(downLeftCaptures).forEach((element) => {
+      element.style.boxShadow = "inset 0px 0px 16px 8px green";
+      element.addEventListener("click", captureHandler);
+      element.dataset.move = capDL;
+    })
+  }
+
+
+  } else {
+
+    if (leftElements.length == 0 && leftCaptures.length == 1){
+
+  Array.from(leftCaptures).forEach((element) => {
+    element.style.boxShadow = "inset 0px 0px 16px 8px green";
+    element.addEventListener("click", captureHandler);
+    element.dataset.move = capL;
+  })
+  }
+
+  if (rightElements.length == 0 && rightCaptures.length == 1){
+
+  Array.from(rightCaptures).forEach((element) => {
+    element.style.boxShadow = "inset 0px 0px 16px 8px green";
+    element.addEventListener("click", captureHandler);
+    element.dataset.move = capR;
+  })
+  }
+
+}
+  // original
+  // if (rightElements.length == 0 && leftElements.length == 0 && upRightElements.length == 0 && upLeftElements.length == 0 && downRightElements.length == 0 && downLeftElements.length == 0) {
+  //   Array.from(allTiles).forEach(element => {
+  //     removeAllListeners(element);
+  //     if (!element.dataset) {
+  //       element.addEventListener("click", () => {
+  //         setSelectedPiece(null);
+  //       });
+  //     }
+  //   });
+  // }
+
   };
+
+
 
   const movePiece = useCallback(async (pieceId, targetTileId) => {
     const payload = {
@@ -315,6 +346,7 @@ const showMoves = (event, matchingPiece) => {
       }
   }, [pieces, tiles, setSelectedPiece, setTurn, switchPlayer]);
 
+  useDetectClickOutside(boardRef);
 
   useEffect(() => {
     fetchTiles();
@@ -322,8 +354,8 @@ const showMoves = (event, matchingPiece) => {
   }, [turn]);
 
   return (
-    <>
-      <game-board key={turn}>
+    <div id="gameboard">
+      <game-board ref={boardRef} key={turn}>
         {Object.values(
           tiles.reduce((rows, tile) => {
             if (!rows[tile.boardRow]) {
@@ -358,7 +390,7 @@ const showMoves = (event, matchingPiece) => {
           </div>
         ))}
       </game-board>
-    </>
+    </div>
   );
 };
 

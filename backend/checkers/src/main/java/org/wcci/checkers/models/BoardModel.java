@@ -11,8 +11,7 @@ public class BoardModel {
     
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long id = 1;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TileModel> tiles = new ArrayList<>();
@@ -58,7 +57,11 @@ public class BoardModel {
         return id;
     }
 
- @JsonIgnore
+ public void setId(long id) {
+        this.id = id;
+    }
+
+@JsonIgnore
     public List<TileModel> getTiles() {
         return tiles;
     }
