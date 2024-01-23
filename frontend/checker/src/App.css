@@ -16,13 +16,14 @@ a:active { text-decoration: none; }
 h1 {
 
   z-index: 4;
-  margin:20px;
+  margin-top: 6px;
+  margin-bottom: 8px;;
   color: #FFF;
   text-align: center;
   font-family: "lato", sans-serif;
   font-weight: 400;
   font-size: 50px;
-  letter-spacing: 10px;
+  letter-spacing: 18px;
 }
 
 .team {
@@ -71,12 +72,12 @@ nav {
 button {
   z-index: 10;
   background-image: linear-gradient(rgb(29, 79, 95), silver);
-  margin: 5px;
+  margin: 3px;
   border-radius: 8px;
   border: 1px solid ;
   border-right: 2px solid;
   border-bottom: 3px solid;
-  padding: 0.6em 1.2em;
+  padding: 6px;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
@@ -98,9 +99,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/*
-* header bar
-*/
 header {
     background-color: #38495a;
     z-index: 2;
@@ -118,12 +116,7 @@ header {
     background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
     background-origin: border-box;
     background-clip: padding-box, border-box;
-    /* display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
-    grid-template-areas:
-    "about title title title nav"
-    "about title title title nav"
-    "about p1 vs p2 nav" ; */
+
     text-align: center;
     align-content: center;
 }
@@ -136,12 +129,7 @@ header {
 
 body {
   z-index: 1;
-  /* background-image: url(assets/images/Flag_of_the_United_States_Space_Force.png);
-  background-position-y: center;
-    background-position-x: center;
-    background-attachment: fixed;
-    background-size: contain;
-    background-repeat: no-repeat; */
+ 
     background: transparent;
     width: 100%;
 
@@ -204,11 +192,6 @@ game-board {
     border: solid transparent 24px;
     border-image: linear-gradient(0.15turn, silver 30%, black 60%);
     border-image-slice: 1;
-    /* border-radius: 10%; */
-    
-  /* box-shadow: 0px 0px 40px 20px rgb(200, 100, 100); */
-  /* border: solid 24px rgb(8, 8, 8, 0.3);
-  border-radius: 10px; */
   grid-area: "board";
   display: flex;
   flex-direction: column;
@@ -242,11 +225,7 @@ game-board {
       
       border-image: linear-gradient(0.15turn, silver 30%, black 60%);
       border-image-slice: 1;
-      /* border-radius: 10%; */
-      
-    /* box-shadow: 0px 0px 10px 10px rgb(200, 100, 100); */
-    /* border: solid 24px rgb(8, 8, 8, 0.3);
-    border-radius: 10px; */
+
     grid-area: "board";
     display: flex;
     flex-direction: column;
@@ -267,8 +246,8 @@ game-board {
   div.piece {
   
     z-index: 15;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     margin:auto;
   }
@@ -338,8 +317,8 @@ game-board {
 .piece {
   
   z-index: 10;
-  width: 50px;
-  height: 50px;
+  width: 65%;
+  height: 65%;
   border-radius: 50%;
   margin:auto;
 }
