@@ -28,6 +28,9 @@ h1 {
 
 .team {
   
+  z-index: 5;
+  height: 30em;
+  overflow-y: auto;
   background-image: linear-gradient(silver, rgb(29, 79, 95)), radial-gradient(circle at top left, grey,navy);
   align-content: center;
   color: black;
@@ -40,6 +43,7 @@ h1 {
 
 }
 .member{
+  z-index: 5;
 margin: auto;
 display: flex;
 padding: 8px;
@@ -50,6 +54,7 @@ border: 8px solid silver;
 
 }
 .bio{
+  z-index: 5;
 text-align: justify;
 padding: 12px;
 
@@ -101,7 +106,7 @@ button:focus-visible {
 
 header {
     background-color: #38495a;
-    z-index: 2;
+    z-index: 4;
     position: center;
     width: 95%;
     max-width: 700px;
@@ -128,7 +133,7 @@ header {
 }
 
 body {
-  z-index: 1;
+  z-index: 2;
  
     background: transparent;
     width: 100%;
@@ -170,7 +175,7 @@ article {
 }
 
 main {
-  z-index: 8;
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -429,7 +434,7 @@ html {
 }
 
 #stars {
-  z-index: -5;
+  z-index: 1;
   width: 1px;
   height: 1px;
   background: transparent;
@@ -437,7 +442,7 @@ html {
   animation: animStar 50s linear infinite;
 }
 #stars:after {
-  z-index: -5;
+  z-index: 1;
   content: " ";
   position: absolute;
   top: 2000px;
