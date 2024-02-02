@@ -82,4 +82,5 @@ public class TileModel {
     public void setBoard(BoardModel board) {
         this.board = board;
     }
+
 }
